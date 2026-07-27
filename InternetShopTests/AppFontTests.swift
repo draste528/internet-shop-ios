@@ -8,6 +8,7 @@
 import XCTest
 import SwiftUI
 @testable import InternetShop
+
 final class AppFontTests: XCTestCase {
 
     func testAppName() {
