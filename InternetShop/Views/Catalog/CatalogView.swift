@@ -9,11 +9,14 @@ import SwiftUI
 
 struct CatalogView: View {
 
+    // MARK: - Properties
+    @StateObject private var viewModel = CatalogViewModel()
+
+    // MARK: - Body
     var body: some View {
-        Text("Catalog")
+        Text(viewModel.title)
     }
 }
-
 
 #Preview {
     CatalogView()

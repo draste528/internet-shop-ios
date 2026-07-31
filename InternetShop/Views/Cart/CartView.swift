@@ -9,11 +9,14 @@ import SwiftUI
 
 struct CartView: View {
 
+    // MARK: - Properties
+    @StateObject private var viewModel = CartViewModel()
+
+    // MARK: - Body
     var body: some View {
-        Text("Cart")
+        Text(viewModel.title)
     }
 }
-
 
 #Preview {
     CartView()

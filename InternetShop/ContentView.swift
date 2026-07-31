@@ -10,16 +10,14 @@ import SwiftUI
 struct ContentView: View {
 
     // MARK: - Properties
-
     @State private var showTabs = false
 
     // MARK: - Body
-
     var body: some View {
         if showTabs {
             TabsView()
         } else {
-            HomeView(showTabs: $showTabs)
+            HomeView()
         }
     }
 }

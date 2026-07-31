@@ -6,15 +6,8 @@
 //
 
 import SwiftUI
+import Combine
 
-struct CatalogView: View {
-
-    var body: some View {
-        Text("Catalog")
-    }
-}
-
-
-#Preview {
-    CatalogView()
+final class CatalogViewModel: ObservableObject {
+    let title = "Catalog"
 }

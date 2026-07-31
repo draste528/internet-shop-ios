@@ -9,11 +9,14 @@ import SwiftUI
 
 struct SettingsView: View {
 
+    // MARK: - Properties
+    @StateObject private var viewModel = SettingsViewModel()
+
+    // MARK: - Body
     var body: some View {
-        Text("Settings")
+        Text(viewModel.title)
     }
 }
-
 
 #Preview {
     SettingsView()

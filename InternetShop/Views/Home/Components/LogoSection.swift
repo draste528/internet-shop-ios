@@ -1,5 +1,5 @@
 //
-//  BrandSection.swift
+//  LogoSection.swift
 //  InternetShop
 //
 //  Created by kair on 29.07.26.
@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-struct BrandSection: View {
+struct LogoSection: View {
 
     // MARK: - Body
-
     var body: some View {
 
         VStack(spacing: 8) {
@@ -20,21 +19,19 @@ struct BrandSection: View {
                 .scaledToFit()
                 .frame(width: 120, height: 120)
 
-
             Text("MINIMALIST")
-                .font(.system(size: 20, weight: .bold))
+                .font(.appName)
                 .tracking(4)
-                .foregroundStyle(Color.black)
-
+                .foregroundStyle(Color.appBlack)
 
             Text("furniture store")
-                .font(.system(size: 15, weight: .regular))
-                .foregroundStyle(Color.black)
+                .font(.appBody)
+                .foregroundStyle(Color.appBlack)
         }
     }
 }
 
 
 #Preview {
-    BrandSection()
+    LogoSection()
 }

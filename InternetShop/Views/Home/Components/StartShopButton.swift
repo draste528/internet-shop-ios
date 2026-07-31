@@ -10,19 +10,15 @@ import SwiftUI
 struct StartShopButton: View {
 
     // MARK: - Properties
-
     let action: () -> Void
 
-
     // MARK: - Body
-
     var body: some View {
 
         Button(action: action) {
-
             Text("START SHOP")
-                .font(.system(size: 15, weight: .bold))
-                .foregroundStyle(Color.white)
+                .font(.appBodySemibold)
+                .foregroundStyle(Color.appWhite)
 
         }
         .frame(maxWidth: .infinity)

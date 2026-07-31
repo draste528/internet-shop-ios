@@ -6,15 +6,8 @@
 //
 
 import SwiftUI
+import Combine
 
-struct FavoritesView: View {
-
-    var body: some View {
-        Text("Favorites")
-    }
-}
-
-
-#Preview {
-    FavoritesView()
+final class FavoritesViewModel: ObservableObject {
+    let title = "Favorites"
 }
