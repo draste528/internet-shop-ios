@@ -8,33 +8,26 @@
 import SwiftUI
 
 struct HomeView: View {
-
-    // MARK: - Properties
     @StateObject private var viewModel = HomeViewModel()
+    let onStart: () -> Void
 
-    // MARK: - Body
     var body: some View {
-        if viewModel.showTabs {
-            TabsView()
-        } else {
-            VStack {
-                Spacer()
-                LogoSection()
-                Spacer()
-
-                StartShopButton(title: "START SHOP") {
-                    viewModel.startShopping()
-                }
-                .frame(width: 218, height: 56)
-
-                Spacer()
+        VStack {
+            Spacer()
+            LogoSection()
+            Spacer()
+            PrimaryButton(title: "START SHOP") {
+                viewModel.startShopping()
+                onStart()
             }
-            .frame(maxWidth: .infinity)
-            .background(Color.appWhite)
+            .frame(width: 218, height: 56)
+            Spacer()
         }
+        .frame(maxWidth: .infinity)
+        .background(Color.appWhite)
     }
 }
 
 #Preview {
-    HomeView()
+    HomeView(onStart: {})
 }

@@ -1,5 +1,5 @@
 //
-//  CatalogView.swift
+//  CatalogViewModel.swift
 //  InternetShop
 //
 //  Created by kair on 29.07.26.
