@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A254E53A3023AA380099BF0E /* Readme.md in Sources */ = {isa = PBXBuildFile; fileRef = A254E5393023AA2D0099BF0E /* Readme.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A23C2D1F30168C6A00DD39D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		A23C2D0F30168C6900DD39D6 /* InternetShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InternetShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A23C2D1E30168C6A00DD39D6 /* InternetShopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InternetShopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A23C2D2830168C6A00DD39D6 /* InternetShopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InternetShopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A254E5393023AA2D0099BF0E /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -70,6 +75,7 @@
 		A23C2D0630168C6900DD39D6 = {
 			isa = PBXGroup;
 			children = (
+				A254E5393023AA2D0099BF0E /* Readme.md */,
 				A23C2D1130168C6900DD39D6 /* InternetShop */,
 				A23C2D2130168C6A00DD39D6 /* InternetShopTests */,
 				A23C2D1030168C6900DD39D6 /* Products */,
@@ -227,6 +233,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A254E53A3023AA380099BF0E /* Readme.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
