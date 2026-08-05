@@ -22,7 +22,7 @@ struct HomeView: View {
                 LogoSection()
                 Spacer()
 
-                StartShopButton {
+                StartShopButton(title: "START SHOP") {
                     viewModel.startShopping()
                 }
                 .frame(width: 218, height: 56)
