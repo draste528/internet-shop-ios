@@ -10,14 +10,12 @@ import SwiftUI
 extension Color {
 
     // MARK: - Brand Colors
-
     /// HEX: #A3BD80
     static let appPrimary = Color(
         red: 162 / 255,
         green: 189 / 255,
         blue: 128 / 255
     )
-
     /// HEX: #809761
     static let appDarkGreen = Color(
         red: 128 / 255,
@@ -26,21 +24,18 @@ extension Color {
     )
 
     // MARK: - Accent Colors
-
     /// HEX: #34C759
     static let appGreen = Color(
         red: 52 / 255,
         green: 199 / 255,
         blue: 89 / 255
     )
-
     /// HEX: #E9CA5D
     static let appYellow = Color(
         red: 233 / 255,
         green: 202 / 255,
         blue: 93 / 255
     )
-
     /// HEX: #FF3B30
     static let appRed = Color(
         red: 255 / 255,
@@ -49,21 +44,18 @@ extension Color {
     )
 
     // MARK: - Neutral Colors
-
     /// HEX: #999999
     static let appGray = Color(
         red: 153 / 255,
         green: 153 / 255,
         blue: 153 / 255
     )
-
     /// HEX: #E5E5E5
     static let appLightGray = Color(
         red: 229 / 255,
         green: 229 / 255,
         blue: 229 / 255
     )
-
     /// HEX: #EDEDED
     static let appDisabled = Color(
         red: 237 / 255,
@@ -72,10 +64,29 @@ extension Color {
     )
 
     // MARK: - Base Colors
-
     /// HEX: #000000
     static let appBlack = Color.black
-
     /// HEX: #FFFFFF
     static let appWhite = Color.white
+}
+
+import UIKit
+
+// MARK: - UIKit Extensions
+extension UIColor {
+    /// HEX: #A3BD80
+    static let appPrimary = UIColor(
+        red: 162 / 255,
+        green: 189 / 255,
+        blue: 128 / 255,
+        alpha: 1.0
+    )
+    
+    /// HEX: #999999
+    static let appGray = UIColor(
+        red: 153 / 255,
+        green: 153 / 255,
+        blue: 153 / 255,
+        alpha: 1.0
+    )
 }
