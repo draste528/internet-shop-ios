@@ -1,0 +1,583 @@
+---
+swagger: "2.0"
+info:
+  description: This is an API for simple Minimalist shop server
+  version: 1.0.0
+  title: Minimalist Shop API
+  contact:
+    email: s@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+- name: catalogue
+  description: API related to list of items
+- name: favorites
+  description: Operations for managing favourites list
+- name: cart
+  description: Operations for managing cart
+- name: order
+  description: Operations related to orders
+paths:
+  /api/v1/categories:
+    get:
+      tags:
+      - catalogue
+      summary: provides list of categories
+      description: "Provides list of all categories and sub-categories for each of high \nlevel category\n"
+      operationId: categoriesSummary
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: List of categories with sub categories
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+  /api/v1/search:
+    get:
+      tags:
+      - catalogue
+      summary: provides list of found items
+      description: |
+        Provides list of all found items meet seach query
+      operationId: search
+      produces:
+      - application/json
+      parameters:
+      - name: query
+        in: query
+        description: pass an optional name of item
+        required: false
+        type: string
+      - name: minPrice
+        in: query
+        description: minimum price
+        required: false
+        type: integer
+        minimum: 0
+        format: int32
+      - name: maxPrice
+        in: query
+        description: maximum price
+        required: false
+        type: integer
+        format: int32
+      - name: rating
+        in: query
+        description: minimum rating of item
+        required: false
+        type: integer
+        maximum: 5
+        minimum: 0
+        format: int32
+      - name: categories
+        in: query
+        description: ids of categories to filter
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: multi
+      - name: offset
+        in: query
+        description: items to skip if using paging
+        required: false
+        type: integer
+        minimum: 0
+        format: int32
+      - name: limit
+        in: query
+        description: maximum number of records to return
+        required: false
+        type: integer
+        minimum: 0
+        format: int32
+      - name: order
+        in: query
+        description: sorting type
+        required: false
+        type: array
+        items: {}
+        collectionFormat: multi
+      responses:
+        "200":
+          description: Search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+        "400":
+          description: bad input parameter
+  /api/v1/item/details:
+    get:
+      tags:
+      - catalogue
+      summary: provides details of item
+      description: |
+        Provides details for the item
+      operationId: itemDetails
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: query
+        description: id of the item
+        required: true
+        type: string
+        format: uuid
+      responses:
+        "200":
+          description: Full item information
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ItemDetails'
+        "404":
+          description: user or item id was not found
+  /api/v1/favorites:
+    get:
+      tags:
+      - favorites
+      summary: provides list of favorited items
+      description: |
+        Provides list of all items which were added to favorites
+      operationId: listFavorited
+      produces:
+      - application/json
+      parameters:
+      - name: User-ID
+        in: header
+        description: id of the current client app user
+        required: true
+        type: string
+        format: uuid
+      responses:
+        "200":
+          description: list of items added to favorites
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+        "404":
+          description: user id was not found
+    post:
+      tags:
+      - favorites
+      summary: adds an item to user's favorites list
+      description: Adds an item to user's favorites list
+      operationId: addItemToFavorites
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: User-ID
+        in: header
+        description: id of the current client app user
+        required: true
+        type: string
+        format: uuid
+      - in: body
+        name: item
+        description: Inventory item to add
+        required: true
+        schema:
+          $ref: '#/definitions/AddItemRequest'
+      responses:
+        "200":
+          description: item created
+        "404":
+          description: invalid input, item id not valid
+        "409":
+          description: an item is already added
+    delete:
+      tags:
+      - favorites
+      summary: remove item from favorites list
+      description: |
+        Removes item from list of favorites
+      operationId: removeFavoritedItem
+      produces:
+      - application/json
+      parameters:
+      - name: User-ID
+        in: header
+        description: id of the current client app user
+        required: true
+        type: string
+        format: uuid
+      - name: id
+        in: query
+        description: id of the item
+        required: true
+        type: string
+        format: uuid
+      responses:
+        "200":
+          description: item removed
+        "404":
+          description: user id was not found
+  /api/v1/cart:
+    get:
+      tags:
+      - cart
+      summary: provides list of items added to cart
+      description: |
+        Provides list of all items which were added to favorites
+      operationId: listCartItems
+      produces:
+      - application/json
+      parameters:
+      - name: User-ID
+        in: header
+        description: id of the current client app user
+        required: true
+        type: string
+        format: uuid
+      responses:
+        "200":
+          description: items in the cart
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+        "404":
+          description: user id was not found
+    post:
+      tags:
+      - cart
+      summary: adds an item to cart
+      description: Adds an item to user's cart
+      operationId: addToCart
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: User-ID
+        in: header
+        description: id of the current client app user
+        required: true
+        type: string
+        format: uuid
+      - in: body
+        name: item
+        description: Inventory item to add
+        required: true
+        schema:
+          $ref: '#/definitions/AddItemRequest'
+      responses:
+        "200":
+          description: item added
+        "404":
+          description: invalid input, item id not found
+        "409":
+          description: an item is already added
+    delete:
+      tags:
+      - cart
+      summary: remove item from cart
+      description: |
+        Removes item from cart
+      operationId: removeCartItem
+      produces:
+      - application/json
+      parameters:
+      - name: User-ID
+        in: header
+        description: id of the current client app user
+        required: true
+        type: string
+        format: uuid
+      - name: id
+        in: query
+        description: id of the item
+        required: true
+        type: string
+        format: uuid
+      responses:
+        "200":
+          description: item removed
+        "404":
+          description: user id was not found
+  /api/v1/order:
+    get:
+      tags:
+      - order
+      summary: provides list of user orders
+      description: |
+        Provides list of all orders made by user
+      operationId: listOrders
+      produces:
+      - application/json
+      parameters:
+      - name: User-ID
+        in: header
+        description: id of the current client app user
+        required: true
+        type: string
+        format: uuid
+      responses:
+        "200":
+          description: user orders
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/OrderResponse'
+        "404":
+          description: user id was not found
+    post:
+      tags:
+      - order
+      summary: adds an item to cart
+      description: Adds an item to user's cart
+      operationId: makeOrder
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: User-ID
+        in: header
+        description: id of the current client app user
+        required: true
+        type: string
+        format: uuid
+      - in: body
+        name: item
+        description: Inventory item to add
+        required: true
+        schema:
+          $ref: '#/definitions/MakeOrderRequest'
+      responses:
+        "200":
+          description: item added
+          schema:
+            $ref: '#/definitions/OrderResponse'
+        "404":
+          description: invalid input, item id not found
+definitions:
+  Category:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      name:
+        type: string
+        example: SOFAS
+      thumbnailurl:
+        type: string
+        example: https://picsum.photos/id/237/200/300
+      subCategories:
+        type: array
+        items:
+          $ref: '#/definitions/Subcategory'
+  Subcategory:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      name:
+        type: string
+        example: SOFAS
+      thumbnailurl:
+        type: string
+        example: https://picsum.photos/id/237/200/300
+  Item:
+    type: object
+    required:
+    - category
+    - id
+    - isAddedToCart
+    - isFavorited
+    - name
+    - price
+    - rating
+    - subCategory
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      name:
+        type: string
+        example: Vindcast
+      category:
+        $ref: '#/definitions/Category'
+      subCategory:
+        $ref: '#/definitions/Subcategory'
+      rating:
+        type: integer
+        format: int32
+        example: 2
+      isFavorited:
+        type: boolean
+        example: false
+      isAddedToCart:
+        type: boolean
+        example: true
+      price:
+        type: string
+        format: double
+        example: "2.59"
+      thumbnailurl:
+        type: string
+        example: https://picsum.photos/id/237/200/300
+  ItemDetails:
+    type: object
+    required:
+    - category
+    - description
+    - id
+    - isAddedToCart
+    - isFavorited
+    - name
+    - price
+    - rating
+    - subCategory
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      name:
+        type: string
+        example: Vindcast
+      category:
+        $ref: '#/definitions/Category'
+      subCategory:
+        $ref: '#/definitions/Subcategory'
+      description:
+        type: string
+        example: |
+          VINDKAST is a pendent lamp. Metal, rugged constructions and timeless design – enjoy the SKURUP lamp series for a long time. Simple adjustments and different types of lamps make the series practical and flexible throughout the home.
+      rating:
+        type: integer
+        format: int32
+        example: 2
+      isFavorited:
+        type: boolean
+        example: false
+      isAddedToCart:
+        type: boolean
+        example: true
+      price:
+        type: string
+        format: double
+        example: "2.59"
+      thumbnails:
+        type: array
+        items:
+          type: string
+          example: https://picsum.photos/id/237/200/300
+      reviews:
+        type: array
+        items:
+          $ref: '#/definitions/Review'
+  Review:
+    required:
+    - id
+    - rating
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      rating:
+        type: integer
+        format: int32
+        example: 4
+      message:
+        type: string
+        example: I very like it!
+  AddItemRequest:
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  MakeOrderRequest:
+    required:
+    - address
+    - city
+    - country
+    - items
+    - username
+    - zipcode
+    properties:
+      username:
+        type: string
+        example: User Name
+      country:
+        type: string
+        example: Belarus
+      city:
+        type: string
+        example: Minsk
+      address:
+        type: string
+        example: Gurskogo, 44
+      zipcode:
+        type: string
+        example: "220000"
+      items:
+        type: array
+        items:
+          type: string
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  OrderResponse:
+    required:
+    - address
+    - city
+    - country
+    - items
+    - orderId
+    - orderNumber
+    - price
+    - username
+    - zipcode
+    properties:
+      orderId:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      orderNumber:
+        type: string
+        example: AB123-34567
+      username:
+        type: string
+        example: User Name
+      country:
+        type: string
+        example: Belarus
+      city:
+        type: string
+        example: Minsk
+      address:
+        type: string
+        example: Gurskogo, 44
+      zipcode:
+        type: string
+        example: "220000"
+      price:
+        type: string
+        example: "58.24"
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Item'

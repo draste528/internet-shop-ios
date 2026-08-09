@@ -8,16 +8,29 @@
 import SwiftUI
 
 struct CatalogView: View {
-
-    // MARK: - Properties
     @StateObject private var viewModel = CatalogViewModel()
 
-    // MARK: - Body
-    var body: some View {
-        Text(viewModel.title)
-    }
-}
+    private let columns = [
+        GridItem(.flexible(), spacing: 15),
+        GridItem(.flexible(), spacing: 15)
+    ]
 
-#Preview {
-    CatalogView()
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 15) {
+                ForEach(viewModel.categories) { category in
+                    CategoryCard(category: category)
+                }
+            }
+            .padding(16)
+        }
+        .overlay {
+            if viewModel.isLoading {
+                ProgressView()
+            }
+        }
+        .task {
+            await viewModel.loadCategories()
+        }
+    }
 }
