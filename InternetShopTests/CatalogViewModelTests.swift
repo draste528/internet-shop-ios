@@ -27,26 +27,27 @@ final class CatalogViewModelTests: XCTestCase {
     }
 
     func testInitialStateIsEmpty() {
-        let vm = CatalogViewModel()
-        XCTAssertTrue(vm.categories.isEmpty)
-        XCTAssertFalse(vm.isLoading)
-        XCTAssertNil(vm.errorMessage)
+        let viewModel = CatalogViewModel()
+        XCTAssertTrue(viewModel.categories.isEmpty)
+        XCTAssertFalse(viewModel.isLoading)
+        XCTAssertNil(viewModel.errorMessage)
     }
 
     func testLoadCategoriesSuccess() async {
         let stub = StubCatalogService(result: .success([makeCategory(name: "SOFAS")]))
-        let vm = CatalogViewModel(service: stub)
-        await vm.loadCategories()
-        XCTAssertEqual(vm.categories.count, 1)
-        XCTAssertNil(vm.errorMessage)
-        XCTAssertFalse(vm.isLoading)
+        let viewModel = CatalogViewModel(service: stub)
+        await viewModel.loadCategories()
+        XCTAssertEqual(viewModel.categories.count, 1)
+        XCTAssertNil(viewModel.errorMessage)
+        XCTAssertFalse(viewModel.isLoading)
     }
 
     func testLoadCategoriesFailureSetsError() async {
         let stub = StubCatalogService(result: .failure(CatalogError.mockNotFound))
-        let vm = CatalogViewModel(service: stub)
-        await vm.loadCategories()
-        XCTAssertTrue(vm.categories.isEmpty)
-        XCTAssertNotNil(vm.errorMessage)
+        let viewModel = CatalogViewModel(service: stub)
+        await viewModel.loadCategories()
+        XCTAssertTrue(viewModel.categories.isEmpty)
+        XCTAssertNotNil(viewModel.errorMessage)
+        XCTAssertFalse(viewModel.isLoading)
     }
 }

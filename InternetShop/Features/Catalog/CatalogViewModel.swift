@@ -12,8 +12,6 @@ import Combine
 final class CatalogViewModel: BaseScreenViewModel {
 
     @Published private(set) var categories: [Category] = []
-    @Published private(set) var isLoading = false
-    @Published private(set) var errorMessage: String?
 
     private let service: CatalogService
 
@@ -23,13 +21,8 @@ final class CatalogViewModel: BaseScreenViewModel {
     }
 
     func loadCategories() async {
-        isLoading = true
-        errorMessage = nil
-        do {
-            categories = try await service.fetchCategories()
-        } catch {
-            errorMessage = "Failed to load categories"
+        await load {
+            self.categories = try await self.service.fetchCategories()
         }
-        isLoading = false
     }
 }

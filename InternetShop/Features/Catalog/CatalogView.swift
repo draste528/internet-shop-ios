@@ -19,7 +19,7 @@ struct CatalogView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 15) {
                 ForEach(viewModel.categories) { category in
-                    CategoryCard(category: category)
+                    CategoryCardView(viewModel: CategoryCardViewModel(category: category))
                 }
             }
             .padding(16)
