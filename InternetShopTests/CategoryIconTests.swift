@@ -5,27 +5,26 @@
 //  Created by kair on 12.08.26.
 //
 
-
 import XCTest
-import SwiftUI
 @testable import InternetShop
 
-final class CategoryIconTests: XCTestCase {
+final class CategoryKindTests: XCTestCase {
 
-    func testKnownCategoriesMapToExpectedAssets() {
-        XCTAssertEqual(Image.categoryIconAssetName(for: "SOFAS"), "couch")
-        XCTAssertEqual(Image.categoryIconAssetName(for: "CHAIRS"), "Chair")
-        XCTAssertEqual(Image.categoryIconAssetName(for: "TABLES"), "Table")
-        XCTAssertEqual(Image.categoryIconAssetName(for: "LAMPS"), "Lamp")
-        XCTAssertEqual(Image.categoryIconAssetName(for: "BEDS"), "Bed")
-        XCTAssertEqual(Image.categoryIconAssetName(for: "WARDROBES"), "Wardrobe")
+    func testKnownCodesMapToKind() {
+        XCTAssertEqual(CategoryKind(rawValue: "SOFAS"), .sofas)
+        XCTAssertEqual(CategoryKind(rawValue: "CHAIRS"), .chairs)
+        XCTAssertEqual(CategoryKind(rawValue: "TABLES"), .tables)
+        XCTAssertEqual(CategoryKind(rawValue: "LAMPS"), .lamps)
+        XCTAssertEqual(CategoryKind(rawValue: "BEDS"), .beds)
+        XCTAssertEqual(CategoryKind(rawValue: "WARDROBES"), .wardrobes)
     }
 
-    func testMappingIsCaseInsensitive() {
-        XCTAssertEqual(Image.categoryIconAssetName(for: "sofas"), "couch")
+    func testUnknownCodeIsNil() {
+        XCTAssertNil(CategoryKind(rawValue: "MIRRORS"))
     }
 
-    func testUnknownCategoryFallsBackToDefault() {
-        XCTAssertEqual(Image.categoryIconAssetName(for: "MIRRORS"), "couch")
+    func testTitles() {
+        XCTAssertEqual(CategoryKind.sofas.title, "Sofas")
+        XCTAssertEqual(CategoryKind.wardrobes.title, "Wardrobes")
     }
 }

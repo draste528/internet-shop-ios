@@ -16,7 +16,7 @@ struct CategoryCardView: View {
                 .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 64, height: 64)
+                .frame(width: 88, height: 88)
                 .foregroundStyle(Color.appPrimary)
 
             Text(viewModel.title)

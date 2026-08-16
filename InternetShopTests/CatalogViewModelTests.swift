@@ -9,8 +9,8 @@ import XCTest
 @testable import InternetShop
 
 private struct StubCatalogService: CatalogService {
-    let result: Result<[Category], Error>
-    func fetchCategories() async throws -> [Category] {
+    let result: Result<[InternetShop.Category], Error>
+    func fetchCategories() async throws -> [InternetShop.Category] {
         try result.get()
     }
 }
@@ -18,7 +18,7 @@ private struct StubCatalogService: CatalogService {
 @MainActor
 final class CatalogViewModelTests: XCTestCase {
 
-    private func makeCategory(name: String) -> Category {
+    private func makeCategory(name: String) -> InternetShop.Category {
         Category(id: UUID(), name: name, thumbnailURL: nil, subCategories: nil)
     }
 

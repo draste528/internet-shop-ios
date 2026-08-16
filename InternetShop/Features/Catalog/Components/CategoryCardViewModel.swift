@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct CategoryCardViewModel {
-
     let title: String
     let icon: Image
 
     init(category: Category) {
-        self.title = category.name.capitalized
-        self.icon = .categoryIcon(for: category.name)
+        let kind = CategoryKind(rawValue: category.name.uppercased())
+        self.title = kind?.title ?? category.name.capitalized
+        self.icon  = kind?.icon  ?? .categoryPlaceholder
     }
 }

@@ -16,13 +16,21 @@ struct CatalogView: View {
     ]
 
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 15) {
-                ForEach(viewModel.categories) { category in
-                    CategoryCardView(viewModel: CategoryCardViewModel(category: category))
+        VStack(spacing: 0) {
+            ScreenHeader(title: viewModel.title)
+
+            SearchBar()
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 15) {
+                    ForEach(viewModel.categories) { category in
+                        CategoryCardView(viewModel: CategoryCardViewModel(category: category))
+                    }
                 }
+                .padding(16)
             }
-            .padding(16)
         }
         .overlay {
             if viewModel.isLoading {
