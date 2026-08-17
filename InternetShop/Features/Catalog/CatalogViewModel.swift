@@ -6,10 +6,23 @@
 //
 
 import Foundation
+import Combine
 
+@MainActor
 final class CatalogViewModel: BaseScreenViewModel {
 
-    init() {
+    @Published private(set) var categories: [Category] = []
+
+    private let service: CatalogService
+
+    init(service: CatalogService = MockCatalogService()) {
+        self.service = service
         super.init(title: "Catalog")
+    }
+
+    func loadCategories() async {
+        await load {
+            self.categories = try await self.service.fetchCategories()
+        }
     }
 }

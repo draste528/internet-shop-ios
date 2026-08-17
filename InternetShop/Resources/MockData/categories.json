@@ -1,0 +1,94 @@
+[
+  {
+    "id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+    "name": "SOFAS",
+    "thumbnailurl": "https://picsum.photos/id/1060/200/300",
+    "subCategories": [
+      {
+        "id": "a1b2c3d4-0001-4b01-90e6-d701748f0001",
+        "name": "CORNER SOFAS",
+        "thumbnailurl": "https://picsum.photos/id/1061/200/300"
+      },
+      {
+        "id": "a1b2c3d4-0002-4b01-90e6-d701748f0002",
+        "name": "SOFA BEDS",
+        "thumbnailurl": "https://picsum.photos/id/1062/200/300"
+      }
+    ]
+  },
+  {
+    "id": "e3810f1a-1c2b-4c9d-8f3a-2b6d7e8f9a01",
+    "name": "CHAIRS",
+    "thumbnailurl": "https://picsum.photos/id/1063/200/300",
+    "subCategories": [
+      {
+        "id": "a1b2c3d4-0003-4b01-90e6-d701748f0003",
+        "name": "ARMCHAIRS",
+        "thumbnailurl": "https://picsum.photos/id/1064/200/300"
+      }
+    ]
+  },
+  {
+    "id": "f4920a2b-2d3c-4dae-9a4b-3c7e8f9a0b12",
+    "name": "TABLES",
+    "thumbnailurl": "https://picsum.photos/id/1065/200/300",
+    "subCategories": [
+      {
+        "id": "a1b2c3d4-0004-4b01-90e6-d701748f0004",
+        "name": "COFFEE TABLES",
+        "thumbnailurl": "https://picsum.photos/id/1066/200/300"
+      },
+      {
+        "id": "a1b2c3d4-0005-4b01-90e6-d701748f0005",
+        "name": "DINING TABLES",
+        "thumbnailurl": "https://picsum.photos/id/1067/200/300"
+      }
+    ]
+  },
+  {
+    "id": "a5031b3c-3e4d-4ebf-ab5c-4d8f9a0b1c23",
+    "name": "LAMPS",
+    "thumbnailurl": "https://picsum.photos/id/1068/200/300",
+    "subCategories": [
+      {
+        "id": "a1b2c3d4-0006-4b01-90e6-d701748f0006",
+        "name": "PENDANT LAMPS",
+        "thumbnailurl": "https://picsum.photos/id/1069/200/300"
+      },
+      {
+        "id": "a1b2c3d4-0007-4b01-90e6-d701748f0007",
+        "name": "CEILING LAMPS",
+        "thumbnailurl": "https://picsum.photos/id/1070/200/300"
+      }
+    ]
+  },
+  {
+    "id": "b6142c4d-4f5e-4fc0-bc6d-5e9a0b1c2d34",
+    "name": "BEDS",
+    "thumbnailurl": "https://picsum.photos/id/1071/200/300",
+    "subCategories": [
+      {
+        "id": "a1b2c3d4-0008-4b01-90e6-d701748f0008",
+        "name": "SINGLE BEDS",
+        "thumbnailurl": "https://picsum.photos/id/1072/200/300"
+      },
+      {
+        "id": "a1b2c3d4-0009-4b01-90e6-d701748f0009",
+        "name": "DOUBLE BEDS",
+        "thumbnailurl": "https://picsum.photos/id/1073/200/300"
+      }
+    ]
+  },
+  {
+    "id": "c7253d5e-5a6f-40d1-cd7e-6a0b1c2d3e45",
+    "name": "WARDROBES",
+    "thumbnailurl": "https://picsum.photos/id/1074/200/300",
+    "subCategories": [
+      {
+        "id": "a1b2c3d4-0010-4b01-90e6-d701748f0010",
+        "name": "SLIDING DOOR WARDROBES",
+        "thumbnailurl": "https://picsum.photos/id/1075/200/300"
+      }
+    ]
+  }
+]

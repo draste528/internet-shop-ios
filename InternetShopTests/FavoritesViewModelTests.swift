@@ -8,6 +8,7 @@
 import XCTest
 @testable import InternetShop
 
+@MainActor
 final class FavoritesViewModelTests: XCTestCase {
 
     func testTitle() {
