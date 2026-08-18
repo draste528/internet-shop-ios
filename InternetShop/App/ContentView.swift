@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showTabs = false
+    @StateObject private var appRouter = AppRouter()
+    @StateObject private var catalogViewModel = CatalogViewModel()
+
     var body: some View {
-        if showTabs {
-            TabsView()
-        } else {
-            HomeView(onStart: { showTabs = true })
+        switch appRouter.route {
+        case .launch:
+            LaunchView(
+                startupJobs: { await catalogViewModel.loadCategories() },
+                onContinue: { appRouter.showMain() }
+            )
+        case .main:
+            TabsView(catalogViewModel: catalogViewModel)
         }
     }
-}
-
-#Preview {
-    ContentView()
 }

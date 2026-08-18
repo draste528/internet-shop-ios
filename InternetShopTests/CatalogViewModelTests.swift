@@ -50,4 +50,24 @@ final class CatalogViewModelTests: XCTestCase {
         XCTAssertNotNil(viewModel.errorMessage)
         XCTAssertFalse(viewModel.isLoading)
     }
+    
+    func testFilterByNameIsCaseInsensitive() async {
+        let stub = StubCatalogService(result: .success([
+            makeCategory(name: "SOFAS"), makeCategory(name: "CHAIRS")
+        ]))
+        let viewModel = CatalogViewModel(service: stub)
+        await viewModel.loadCategories()
+        viewModel.searchText = "sof"
+        XCTAssertEqual(viewModel.filteredCategories.map(\.name), ["SOFAS"])
+    }
+
+    func testEmptySearchReturnsAll() async {
+        let stub = StubCatalogService(result: .success([
+            makeCategory(name: "SOFAS"), makeCategory(name: "CHAIRS")
+        ]))
+        let viewModel = CatalogViewModel(service: stub)
+        await viewModel.loadCategories()
+        viewModel.searchText = "   "
+        XCTAssertEqual(viewModel.filteredCategories.count, 2)
+    }
 }

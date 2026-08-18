@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct SettingsView: View {
-
-    // MARK: - Properties
     @StateObject private var viewModel = SettingsViewModel()
-
-    // MARK: - Body
     var body: some View {
-        Text(viewModel.title)
+        NavigationStack {
+            VStack { }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.appWhite)
+                .navigationTitle(viewModel.title)
+                .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 

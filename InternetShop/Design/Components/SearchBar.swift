@@ -9,16 +9,30 @@
 import SwiftUI
 
 struct SearchBar: View {
+    @Binding var text: String
+    @FocusState.Binding var isFocused: Bool
     var placeholder: String = "Search"
 
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(Color.appGray)
-            Text(placeholder)
+
+            TextField(placeholder, text: $text)
+                .focused($isFocused)
                 .font(.appInput)
-                .foregroundStyle(Color.appGray)
-            Spacer()
+                .foregroundStyle(Color.appBlack)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+                .submitLabel(.search)
+
+            if !text.isEmpty {
+                Button { text = "" } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(Color.appGray)
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding(.horizontal, 12)
         .frame(height: 44)

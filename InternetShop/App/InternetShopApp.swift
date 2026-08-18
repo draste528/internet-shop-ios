@@ -26,6 +26,7 @@ struct InternetShopApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .tint(Color.appPrimary)
         }
         .modelContainer(sharedModelContainer)
     }

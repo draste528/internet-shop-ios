@@ -12,12 +12,19 @@ import Combine
 final class CatalogViewModel: BaseScreenViewModel {
 
     @Published private(set) var categories: [Category] = []
+    @Published var searchText = ""
 
     private let service: CatalogService
 
     init(service: CatalogService = MockCatalogService()) {
         self.service = service
         super.init(title: "Catalog")
+    }
+
+    var filteredCategories: [Category] {
+        let query = searchText.trimmingCharacters(in: .whitespaces)
+        guard !query.isEmpty else { return categories }
+        return categories.filter { $0.name.localizedCaseInsensitiveContains(query) }
     }
 
     func loadCategories() async {
