@@ -9,23 +9,18 @@
 import SwiftUI
 
 struct LaunchView: View {
-    @StateObject private var viewModel = LaunchViewModel()
-    let startupJobs: () async -> Void
+    @ObservedObject var viewModel: LaunchViewModel
     let onContinue: () -> Void
 
     var body: some View {
         VStack {
-            Spacer()
-            LogoSection()
-            Spacer()
+            Spacer(); LogoSection(); Spacer()
             actionArea
             Spacer()
         }
         .frame(maxWidth: .infinity)
         .background(Color.appWhite)
-        .task {
-            await viewModel.runStartupJobs(startupJobs)
-        }
+        .task { await viewModel.runStartupJobs() }
     }
 
     @ViewBuilder

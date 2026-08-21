@@ -70,4 +70,11 @@ final class CatalogViewModelTests: XCTestCase {
         viewModel.searchText = "   "
         XCTAssertEqual(viewModel.filteredCategories.count, 2)
     }
+    
+    func testShowDetailPushesRoute() {
+        let vm = CatalogViewModel()
+        let category = makeCategory(name: "SOFAS")
+        vm.showDetail(for: category)
+        XCTAssertEqual(vm.router.path, [.categoryDetail(category)])
+    }
 }

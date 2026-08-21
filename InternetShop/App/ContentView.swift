@@ -8,18 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var appRouter = AppRouter()
-    @StateObject private var catalogViewModel = CatalogViewModel()
+    @StateObject private var viewModel = RootViewModel()
 
     var body: some View {
-        switch appRouter.route {
+        switch viewModel.route {
         case .launch:
-            LaunchView(
-                startupJobs: { await catalogViewModel.loadCategories() },
-                onContinue: { appRouter.showMain() }
-            )
+            LaunchView(viewModel: viewModel.launchViewModel, onContinue: viewModel.showMain)
         case .main:
-            TabsView(catalogViewModel: catalogViewModel)
+            TabsView(catalogViewModel: viewModel.catalogViewModel)
         }
     }
 }

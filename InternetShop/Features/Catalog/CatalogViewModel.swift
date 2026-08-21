@@ -14,6 +14,8 @@ final class CatalogViewModel: BaseScreenViewModel {
     @Published private(set) var categories: [Category] = []
     @Published var searchText = ""
 
+    let router = Router<CatalogRoute>()
+
     private let service: CatalogService
 
     init(service: CatalogService = MockCatalogService()) {
@@ -27,9 +29,11 @@ final class CatalogViewModel: BaseScreenViewModel {
         return categories.filter { $0.name.localizedCaseInsensitiveContains(query) }
     }
 
+    func showDetail(for category: Category) {
+        router.push(.categoryDetail(category))
+    }
+
     func loadCategories() async {
-        await load {
-            self.categories = try await self.service.fetchCategories()
-        }
+        await load { self.categories = try await self.service.fetchCategories() }
     }
 }

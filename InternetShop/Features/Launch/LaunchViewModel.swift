@@ -12,8 +12,14 @@ import Combine
 final class LaunchViewModel: ObservableObject {
     @Published private(set) var isReady = false
 
-    func runStartupJobs(_ jobs: () async -> Void) async {
-        await jobs()
+    private let catalogViewModel: CatalogViewModel
+
+    init(catalogViewModel: CatalogViewModel) {
+        self.catalogViewModel = catalogViewModel
+    }
+
+    func runStartupJobs() async {
+        await catalogViewModel.loadCategories()
         isReady = true
     }
 }

@@ -23,7 +23,7 @@ struct SortFilterBar: View {
                     .frame(maxWidth: .infinity)
             }
         }
-        .font(.system(size: 20))
+        .font(.appName)
         .foregroundStyle(Color.appBlack)
         .frame(height: 48)
         .overlay(alignment: .bottom) {

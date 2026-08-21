@@ -9,8 +9,13 @@ import SwiftUI
 
 struct CatalogView: View {
     @ObservedObject var viewModel: CatalogViewModel
-    @StateObject private var router = Router<CatalogRoute>()
+    @ObservedObject private var router: Router<CatalogRoute>
     @FocusState private var searchFocused: Bool
+
+    init(viewModel: CatalogViewModel) {
+        self.viewModel = viewModel
+        _router = ObservedObject(wrappedValue: viewModel.router)
+    }
 
     private let columns = [
         GridItem(.flexible(), spacing: 15),
@@ -20,9 +25,13 @@ struct CatalogView: View {
     var body: some View {
         NavigationStack(path: $router.path) {
             VStack(spacing: 0) {
+                Rectangle().fill(Color.appLightGray).frame(height: 1)
+
                 SearchBar(text: $viewModel.searchText, isFocused: $searchFocused)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
+
+                Rectangle().fill(Color.appLightGray).frame(height: 1)
 
                 content
             }
@@ -53,8 +62,8 @@ struct CatalogView: View {
             LazyVGrid(columns: columns, spacing: 15) {
                 ForEach(viewModel.filteredCategories) { category in
                     Button {
-                        searchFocused = false          // close keyboard before navigating
-                        router.push(.categoryDetail(category))
+                        searchFocused = false
+                        viewModel.showDetail(for: category)
                     } label: {
                         CategoryCardView(viewModel: CategoryCardViewModel(category: category))
                     }

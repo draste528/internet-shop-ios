@@ -19,13 +19,15 @@ struct TabsView: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 60)
                     .padding(.top, 8)
-                    .background(Color.appWhite)
+                    .background(Color.appDisabled)
                     .overlay(alignment: .top) {
-                        Rectangle().fill(Color.appLightGray).frame(height: 1)
+                        Rectangle().fill(Color.appLightGray)
+                            .frame(height: 1)
                     }
             }
-            .ignoresSafeArea(.keyboard, edges: .bottom)  
+            .ignoresSafeArea(.keyboard, edges: .bottom)
     }
+
     @ViewBuilder
     private var content: some View {
         switch menu.selectedTag {

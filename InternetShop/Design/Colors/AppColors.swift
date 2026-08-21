@@ -89,4 +89,20 @@ extension UIColor {
         blue: 153 / 255,
         alpha: 1.0
     )
+    
+    /// HEX: #EDEDED
+    static let appDisabled = UIColor(
+        red: 237 / 255,
+        green: 237 / 255,
+        blue: 237 / 255,
+        alpha: 1.0
+    )
+    
+    /// HEX: #E5E5E5
+    static let appLightGray = UIColor(
+        red: 229 / 255,
+        green: 229 / 255,
+        blue: 229 / 255,
+        alpha: 1.0
+    )
 }
