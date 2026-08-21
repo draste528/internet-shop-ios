@@ -10,7 +10,6 @@ import SwiftUI
 struct CatalogView: View {
     @ObservedObject var viewModel: CatalogViewModel
     @ObservedObject private var router: Router<CatalogRoute>
-    @FocusState private var searchFocused: Bool
 
     init(viewModel: CatalogViewModel) {
         self.viewModel = viewModel
@@ -24,25 +23,20 @@ struct CatalogView: View {
 
     var body: some View {
         NavigationStack(path: $router.path) {
-            VStack(spacing: 0) {
-                Rectangle().fill(Color.appLightGray).frame(height: 1)
-
-                SearchBar(text: $viewModel.searchText, isFocused: $searchFocused)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-
-                Rectangle().fill(Color.appLightGray).frame(height: 1)
-
-                content
-            }
-            .navigationTitle(viewModel.title)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: CatalogRoute.self) { route in
-                switch route {
-                case .categoryDetail(let category):
-                    CategoryDetailView(viewModel: CategoryDetailViewModel(category: category))
+            content
+                .navigationTitle(viewModel.title)
+                .navigationBarTitleDisplayMode(.inline)
+                .searchable(
+                    text: $viewModel.searchText,
+                    placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: "Search"
+                )
+                .navigationDestination(for: CatalogRoute.self) { route in
+                    switch route {
+                    case .categoryDetail(let category):
+                        CategoryDetailView(viewModel: CategoryDetailViewModel(category: category))
+                    }
                 }
-            }
         }
     }
 
@@ -62,7 +56,6 @@ struct CatalogView: View {
             LazyVGrid(columns: columns, spacing: 15) {
                 ForEach(viewModel.filteredCategories) { category in
                     Button {
-                        searchFocused = false
                         viewModel.showDetail(for: category)
                     } label: {
                         CategoryCardView(viewModel: CategoryCardViewModel(category: category))

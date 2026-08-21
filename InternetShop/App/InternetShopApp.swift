@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
 @main
 struct InternetShopApp: App {
@@ -19,6 +20,10 @@ struct InternetShopApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+
+    init() {
+        UISearchTextField.appearance().backgroundColor = .appDisabled
+    }
 
     var body: some Scene {
         WindowGroup {
