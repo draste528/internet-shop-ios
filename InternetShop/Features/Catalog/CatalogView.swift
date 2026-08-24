@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct CatalogView: View {
-    @StateObject private var viewModel = CatalogViewModel()
+    @ObservedObject var viewModel: CatalogViewModel
+    @ObservedObject private var router: Router<CatalogRoute>
+
+    init(viewModel: CatalogViewModel) {
+        self.viewModel = viewModel
+        _router = ObservedObject(wrappedValue: viewModel.router)
+    }
 
     private let columns = [
         GridItem(.flexible(), spacing: 15),
@@ -16,29 +22,58 @@ struct CatalogView: View {
     ]
 
     var body: some View {
-        VStack(spacing: 0) {
-            ScreenHeader(title: viewModel.title)
-
-            SearchBar()
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 15) {
-                    ForEach(viewModel.categories) { category in
-                        CategoryCardView(viewModel: CategoryCardViewModel(category: category))
+        NavigationStack(path: $router.path) {
+            content
+                .navigationTitle(viewModel.title)
+                .navigationBarTitleDisplayMode(.inline)
+                .searchable(
+                    text: $viewModel.searchText,
+                    placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: "Search"
+                )
+                .navigationDestination(for: CatalogRoute.self) { route in
+                    switch route {
+                    case .categoryDetail(let category):
+                        CategoryDetailView(viewModel: CategoryDetailViewModel(category: category))
                     }
                 }
-                .padding(16)
-            }
         }
-        .overlay {
-            if viewModel.isLoading {
-                ProgressView()
-            }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        if viewModel.isLoading {
+            ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else if viewModel.filteredCategories.isEmpty {
+            emptyState
+        } else {
+            grid
         }
-        .task {
-            await viewModel.loadCategories()
+    }
+
+    private var grid: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 15) {
+                ForEach(viewModel.filteredCategories) { category in
+                    Button {
+                        viewModel.showDetail(for: category)
+                    } label: {
+                        CategoryCardView(viewModel: CategoryCardViewModel(category: category))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(16)
+        }
+        .scrollDismissesKeyboard(.immediately)
+    }
+
+    @ViewBuilder
+    private var emptyState: some View {
+        if viewModel.searchText.isEmpty {
+            ContentUnavailableView("No categories", systemImage: "square.grid.2x2")
+        } else {
+            ContentUnavailableView.search(text: viewModel.searchText)
         }
     }
 }

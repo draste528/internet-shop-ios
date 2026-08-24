@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TabsView: View {
-
+    let catalogViewModel: CatalogViewModel
     @StateObject private var menu = SingleSelectionMenuViewModel(items: TabBarItem.allTabs)
 
     var body: some View {
@@ -19,20 +19,23 @@ struct TabsView: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 60)
                     .padding(.top, 8)
-                    .background(Color.appWhite)
+                    .background(Color.appDisabled)
                     .overlay(alignment: .top) {
-                        Rectangle().fill(Color.appLightGray).frame(height: 1)
+                        Rectangle().fill(Color.appLightGray)
+                            .frame(height: 1)
                     }
             }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
     }
+
     @ViewBuilder
     private var content: some View {
         switch menu.selectedTag {
-        case 0: CatalogView()
+        case 0: CatalogView(viewModel: catalogViewModel)
         case 1: FavoritesView()
         case 2: CartView()
         case 3: SettingsView()
-        default: CatalogView()
+        default: CatalogView(viewModel: catalogViewModel)
         }
     }
 }

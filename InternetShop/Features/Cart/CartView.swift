@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct CartView: View {
-
-    // MARK: - Properties
     @StateObject private var viewModel = CartViewModel()
-
-    // MARK: - Body
     var body: some View {
-        Text(viewModel.title)
+        NavigationStack {
+            VStack { }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.appWhite)
+                .navigationTitle(viewModel.title)
+                .navigationBarTitleDisplayMode(.inline)
+        }
     }
-}
-
-#Preview {
-    CartView()
 }

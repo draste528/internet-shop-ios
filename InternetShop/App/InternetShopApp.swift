@@ -7,15 +7,13 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
 @main
 struct InternetShopApp: App {
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
+        let schema = Schema([Item.self])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
@@ -23,9 +21,14 @@ struct InternetShopApp: App {
         }
     }()
 
+    init() {
+        UISearchTextField.appearance().backgroundColor = .appDisabled
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .tint(Color.appPrimary)
         }
         .modelContainer(sharedModelContainer)
     }

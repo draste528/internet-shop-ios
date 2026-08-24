@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showTabs = false
+    @StateObject private var viewModel = RootViewModel()
+
     var body: some View {
-        if showTabs {
-            TabsView()
-        } else {
-            HomeView(onStart: { showTabs = true })
+        switch viewModel.route {
+        case .launch:
+            LaunchView(viewModel: viewModel.launchViewModel, onContinue: viewModel.showMain)
+        case .main:
+            TabsView(catalogViewModel: viewModel.catalogViewModel)
         }
     }
-}
-
-#Preview {
-    ContentView()
 }
