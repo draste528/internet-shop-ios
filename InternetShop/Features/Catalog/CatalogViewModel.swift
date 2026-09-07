@@ -30,7 +30,7 @@ final class CatalogViewModel: BaseScreenViewModel {
     }
 
     func showDetail(for category: Category) {
-        router.push(.categoryDetail(category))
+            router.push(.itemsList(category))
     }
 
     func loadCategories() async {

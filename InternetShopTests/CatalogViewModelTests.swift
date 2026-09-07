@@ -75,6 +75,6 @@ final class CatalogViewModelTests: XCTestCase {
         let vm = CatalogViewModel()
         let category = makeCategory(name: "SOFAS")
         vm.showDetail(for: category)
-        XCTAssertEqual(vm.router.path, [.categoryDetail(category)])
+        XCTAssertEqual(vm.router.path, [.itemsList(category)])
     }
 }

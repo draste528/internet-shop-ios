@@ -33,8 +33,10 @@ struct CatalogView: View {
                 )
                 .navigationDestination(for: CatalogRoute.self) { route in
                     switch route {
-                    case .categoryDetail(let category):
-                        CategoryDetailView(viewModel: CategoryDetailViewModel(category: category))
+                    case .itemsList(let category):
+                        ItemsListView(viewModel: ItemsListViewModel(category: category), router: router)
+                        case .itemDetail(let itemId):
+                            ItemDetailView(itemId: itemId)
                     }
                 }
         }

@@ -1,0 +1,13 @@
+[
+  {
+    "id": "33333333-3333-3333-3333-333333333331",
+    "name": "LINNMON Table",
+    "category": { "id": "00000000-0000-0000-0000-000000000003", "name": "TABLES" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000031", "name": "Dining tables" },
+    "rating": 5,
+    "isFavorited": true,
+    "isAddedToCart": false,
+    "price": "120.00",
+    "thumbnailurl": "https://picsum.photos/id/1029/200/200"
+  }
+]

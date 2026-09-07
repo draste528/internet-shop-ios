@@ -1,0 +1,13 @@
+[
+  {
+    "id": "55555555-5555-5555-5555-555555555551",
+    "name": "MALM Bed Frame",
+    "category": { "id": "00000000-0000-0000-0000-000000000005", "name": "BEDS" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000051", "name": "Double beds" },
+    "rating": 5,
+    "isFavorited": true,
+    "isAddedToCart": false,
+    "price": "299.00",
+    "thumbnailurl": "https://picsum.photos/id/1033/200/200"
+  }
+]

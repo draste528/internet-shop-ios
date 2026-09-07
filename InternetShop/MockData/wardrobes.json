@@ -1,0 +1,13 @@
+[
+  {
+    "id": "66666666-6666-6666-6666-666666666661",
+    "name": "PAX Wardrobe",
+    "category": { "id": "00000000-0000-0000-0000-000000000006", "name": "WARDROBES" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000061", "name": "Closets" },
+    "rating": 4,
+    "isFavorited": false,
+    "isAddedToCart": true,
+    "price": "550.00",
+    "thumbnailurl": "https://picsum.photos/id/1035/200/200"
+  }
+]

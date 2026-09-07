@@ -1,0 +1,24 @@
+[
+  {
+    "id": "44444444-4444-4444-4444-444444444441",
+    "name": "HEKTAR Work Lamp",
+    "category": { "id": "00000000-0000-0000-0000-000000000004", "name": "LAMPS" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000041", "name": "Work lamps" },
+    "rating": 4,
+    "isFavorited": false,
+    "isAddedToCart": false,
+    "price": "59.99",
+    "thumbnailurl": "https://picsum.photos/id/1031/200/200"
+  },
+  {
+    "id": "44444444-4444-4444-4444-444444444442",
+    "name": "VINDKAST",
+    "category": { "id": "00000000-0000-0000-0000-000000000004", "name": "LAMPS" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000042", "name": "Pendant lamps" },
+    "rating": 2,
+    "isFavorited": false,
+    "isAddedToCart": true,
+    "price": "2.59",
+    "thumbnailurl": "https://picsum.photos/id/1032/200/200"
+  }
+]
