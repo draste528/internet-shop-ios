@@ -24,7 +24,17 @@ final class ItemsListViewModelTests: XCTestCase {
     }
     
     private func makeItem(name: String) -> Item {
-        Item(id: UUID(), name: name, price: 99.9, rating: 5.0, thumbnailURL: nil, categoryId: UUID())
+        Item(
+            id: UUID(),
+            name: name,
+            category: makeCategory(),
+            subCategory: Subcategory(id: UUID(), name: "Sub", thumbnailURL: nil),
+            rating: 5,
+            isFavorited: false,
+            isAddedToCart: false,
+            price: "99.9",
+            thumbnailURL: nil
+        )
     }
 
     func testTitleMatchesCategory() {
@@ -63,7 +73,7 @@ final class ItemsListViewModelTests: XCTestCase {
     
     func testFilterByNameIsCaseInsensitive() async {
         let stub = StubItemsService(result: .success([
-            makeItem(name: "Leather Sofa"), 
+            makeItem(name: "Leather Sofa"),
             makeItem(name: "Fabric Chair")
         ]))
         let vm = ItemsListViewModel(category: makeCategory(), service: stub)
