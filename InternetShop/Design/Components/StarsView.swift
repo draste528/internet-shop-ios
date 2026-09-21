@@ -7,31 +7,26 @@
 
 
 import SwiftUI
+import Combine
 
 struct StarsView: View {
-    let rating: Double
-    var maxRating: Int = 5
+    @StateObject private var viewModel: StarsViewModel
+    let spacing: CGFloat
+
+    init(viewModel: StarsViewModel, spacing: CGFloat = 2) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+        self.spacing = spacing
+    }
 
     var body: some View {
-        HStack(spacing: 2) {
-            ForEach(0..<maxRating, id: \.self) { index in
-                image(for: index)
+        HStack(spacing: spacing) {
+            ForEach(0..<viewModel.maxRating, id: \.self) { index in
+                Image(systemName: viewModel.iconName(for: index))
                     .resizable()
                     .scaledToFit()
                     .frame(width: 14, height: 14)
                     .foregroundStyle(Color.appYellow)
             }
-        }
-    }
-
-    private func image(for index: Int) -> Image {
-        let starValue = rating - Double(index)
-        if starValue >= 1 {
-            return Image(systemName: "star.fill")
-        } else if starValue >= 0.5 {
-            return Image(systemName: "star.leadinghalf.filled")
-        } else {
-            return Image(systemName: "star")
         }
     }
 }

@@ -5,11 +5,14 @@
 //  Created by kair on 07.09.26.
 //
 
-
 import SwiftUI
 
 struct ItemRow: View {
-    let item: Item
+    @StateObject private var viewModel: ItemRowViewModel
+
+    init(item: Item) {
+        _viewModel = StateObject(wrappedValue: ItemRowViewModel(item: item))
+    }
 
     var body: some View {
         HStack(spacing: 16) {
@@ -18,13 +21,13 @@ struct ItemRow: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
 
             VStack(alignment: .leading, spacing: 6) {
-                Text(item.name)
+                Text(viewModel.item.name)
                     .font(.appHeadline)
                     .foregroundStyle(Color.appBlack)
                 
-                StarsView(rating: Double(item.rating))
+                StarsView(viewModel: StarsViewModel(rating: Double(viewModel.item.rating)))
                 
-                Text("$\(item.priceValue, specifier: "%.2f")")
+                Text(viewModel.priceFormatted)
                     .font(.appBodySemibold)
                     .foregroundStyle(Color.appPrimary)
             }
@@ -42,12 +45,8 @@ struct ItemRow: View {
     
     @ViewBuilder
     private var imageView: some View {
-        let urlString = item.thumbnailURL ?? ""
-        
-        if urlString.isEmpty || !urlString.hasPrefix("http") {
-            fallbackImage
-        } else {
-            AsyncImage(url: URL(string: urlString)) { phase in
+        if let url = viewModel.imageURL {
+            AsyncImage(url: url) { phase in
                 switch phase {
                 case .empty:
                     ZStack {
@@ -62,6 +61,8 @@ struct ItemRow: View {
                     EmptyView()
                 }
             }
+        } else {
+            fallbackImage
         }
     }
     

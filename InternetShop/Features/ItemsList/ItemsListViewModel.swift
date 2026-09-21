@@ -5,15 +5,15 @@
 //  Created by kair on 07.09.26.
 //
 
-import Combine
 import Foundation
+import Combine
 
 @MainActor
 final class ItemsListViewModel: BaseScreenViewModel {
     @Published private(set) var items: [Item] = []
-    @Published var searchText: String = ""
     
     let category: Category
+    let router: Router<CatalogRoute>
     private let service: ItemsService
 
     var filteredItems: [Item] {
@@ -22,8 +22,9 @@ final class ItemsListViewModel: BaseScreenViewModel {
         return items.filter { $0.name.localizedCaseInsensitiveContains(query) }
     }
 
-    init(category: Category, service: ItemsService = MockItemsService()) {
+    init(category: Category, router: Router<CatalogRoute>, service: ItemsService = MockItemsService()) {
         self.category = category
+        self.router = router
         self.service = service
         
         let kind = CategoryKind(rawValue: category.name.uppercased())
@@ -32,7 +33,15 @@ final class ItemsListViewModel: BaseScreenViewModel {
 
     func loadItems() async {
         await load {
-            self.items = try await service.fetchItems(for: category)
+            do {
+                self.items = try await service.fetchItems(for: category)
+            } catch {
+                self.errorMessage = "Failed to load items"
+            }
         }
+    }
+    
+    func showItemDetails(itemId: UUID) {
+        router.push(.itemDetail(itemId: itemId))
     }
 }

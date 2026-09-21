@@ -10,12 +10,9 @@ import Combine
 
 @MainActor
 final class CatalogViewModel: BaseScreenViewModel {
-
     @Published private(set) var categories: [Category] = []
-    @Published var searchText = ""
 
     let router = Router<CatalogRoute>()
-
     private let service: CatalogService
 
     init(service: CatalogService = MockCatalogService()) {
@@ -30,10 +27,16 @@ final class CatalogViewModel: BaseScreenViewModel {
     }
 
     func showDetail(for category: Category) {
-            router.push(.itemsList(category))
+        router.push(.itemsList(category: category))
     }
 
     func loadCategories() async {
-        await load { self.categories = try await self.service.fetchCategories() }
+        await load {
+            do {
+                self.categories = try await service.fetchCategories()
+            } catch {
+                self.errorMessage = "Failed to load categories"
+            }
+        }
     }
 }

@@ -5,35 +5,44 @@
 //  Created by kair on 07.09.26.
 //
 
-
 import SwiftUI
 
 struct ItemsListView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject var viewModel: ItemsListViewModel
-    @ObservedObject var router: Router<CatalogRoute>
-    
-    @FocusState private var isSearchFocused: Bool
+    @StateObject private var viewModel: ItemsListViewModel
+
+    @MainActor
+    init(category: Category, router: Router<CatalogRoute>) {
+        _viewModel = StateObject(wrappedValue: ItemsListViewModel(category: category, router: router))
+    }
 
     var body: some View {
-        VStack(spacing: 0) {
-            SearchBar(text: $viewModel.searchText, isFocused: $isSearchFocused, placeholder: "Search items")
-                .padding(.vertical, 8)
-            
-            SortFilterBar(onSort: {}, onFilter: {})
-            
-            content
-        }
-        .background(Color.appWhite)
-        .navigationTitle(viewModel.title)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                BackButton { dismiss() }
+        content
+            .background(Color.appWhite)
+            .navigationTitle(viewModel.title)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .searchable(
+                text: $viewModel.searchText,
+                placement: .navigationBarDrawer(displayMode: .always),
+                prompt: "Search items"
+            )
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    BackButton { dismiss() }
+                }
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button { } label: {
+                        Image(systemName: "arrow.up.arrow.down")
+                            .foregroundStyle(Color.appBlack)
+                    }
+                    Button { } label: {
+                        Image(systemName: "line.3.horizontal.decrease")
+                            .foregroundStyle(Color.appBlack)
+                    }
+                }
             }
-        }
-        .task { await viewModel.loadItems() }
+            .task { await viewModel.loadItems() }
     }
     
     @ViewBuilder
@@ -52,8 +61,7 @@ struct ItemsListView: View {
             LazyVStack(spacing: 16) {
                 ForEach(viewModel.filteredItems) { item in
                     Button {
-                        isSearchFocused = false
-                        router.push(.itemDetail(item.id))
+                        viewModel.showItemDetails(itemId: item.id)
                     } label: {
                         ItemRow(item: item)
                     }

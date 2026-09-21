@@ -10,25 +10,20 @@ import Combine
 
 @MainActor
 class BaseScreenViewModel: ObservableObject {
-
     let title: String
 
-    // loading pattern
     @Published private(set) var isLoading = false
-    @Published private(set) var errorMessage: String?
+    @Published var errorMessage: String?
+    @Published var searchText: String = ""
 
     init(title: String) {
         self.title = title
     }
 
-    func load(_ operation: () async throws -> Void) async {
+    func load(_ operation: () async -> Void) async {
         isLoading = true
         errorMessage = nil
-        do {
-            try await operation()
-        } catch {
-            errorMessage = "Something went wrong"
-        }
+        await operation()
         isLoading = false
     }
 }

@@ -5,10 +5,10 @@
 //  Created by kair on 18.08.26.
 //
 
-import Combine
 import Foundation
 
 enum CatalogRoute: Hashable {
-    case itemsList(Category)
-    case itemDetail(UUID)
+    case categoryDetail(category: Category)
+    case itemsList(category: Category)
+    case itemDetail(itemId: UUID)
 }
