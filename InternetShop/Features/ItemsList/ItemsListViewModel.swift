@@ -32,12 +32,12 @@ final class ItemsListViewModel: BaseScreenViewModel {
     }
 
     func loadItems() async {
-        await load {
-            do {
+        do {
+            try await load {
                 self.items = try await service.fetchItems(for: category)
-            } catch {
-                self.errorMessage = "Failed to load items"
             }
+        } catch {
+            errorMessage = "Failed to load items"
         }
     }
     

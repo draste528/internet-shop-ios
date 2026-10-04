@@ -31,12 +31,12 @@ final class CatalogViewModel: BaseScreenViewModel {
     }
 
     func loadCategories() async {
-        await load {
-            do {
+        do {
+            try await load {
                 self.categories = try await service.fetchCategories()
-            } catch {
-                self.errorMessage = "Failed to load categories"
             }
+        } catch {
+            errorMessage = "Failed to load categories"
         }
     }
 }

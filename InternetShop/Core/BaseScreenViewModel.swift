@@ -20,10 +20,10 @@ class BaseScreenViewModel: ObservableObject {
         self.title = title
     }
 
-    func load(_ operation: () async -> Void) async {
+    func load(_ operation: () async throws -> Void) async throws {
         isLoading = true
         errorMessage = nil
-        await operation()
-        isLoading = false
+        defer { isLoading = false }
+        try await operation()
     }
 }

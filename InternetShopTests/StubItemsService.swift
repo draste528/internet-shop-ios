@@ -38,12 +38,12 @@ final class ItemsListViewModelTests: XCTestCase {
     }
 
     func testTitleMatchesCategory() {
-        let vm = ItemsListViewModel(category: makeCategory())
+        let vm = ItemsListViewModel(category: makeCategory(), router: Router<CatalogRoute>())
         XCTAssertEqual(vm.title, "Sofas")
     }
 
     func testInitialState() {
-        let vm = ItemsListViewModel(category: makeCategory())
+        let vm = ItemsListViewModel(category: makeCategory(), router: Router<CatalogRoute>())
         XCTAssertTrue(vm.items.isEmpty)
         XCTAssertFalse(vm.isLoading)
         XCTAssertNil(vm.errorMessage)
@@ -51,7 +51,7 @@ final class ItemsListViewModelTests: XCTestCase {
 
     func testLoadItemsSuccess() async {
         let stub = StubItemsService(result: .success([makeItem(name: "Big Sofa")]))
-        let vm = ItemsListViewModel(category: makeCategory(), service: stub)
+        let vm = ItemsListViewModel(category: makeCategory(), router: Router<CatalogRoute>(), service: stub)
         
         await vm.loadItems()
         
@@ -62,12 +62,12 @@ final class ItemsListViewModelTests: XCTestCase {
 
     func testLoadItemsFailureSetsError() async {
         let stub = StubItemsService(result: .failure(ItemsError.mockNotFound))
-        let vm = ItemsListViewModel(category: makeCategory(), service: stub)
+        let vm = ItemsListViewModel(category: makeCategory(), router: Router<CatalogRoute>(), service: stub)
         
         await vm.loadItems()
         
         XCTAssertTrue(vm.items.isEmpty)
-        XCTAssertNotNil(vm.errorMessage)
+        XCTAssertEqual(vm.errorMessage, "Failed to load items")
         XCTAssertFalse(vm.isLoading)
     }
     
@@ -76,7 +76,7 @@ final class ItemsListViewModelTests: XCTestCase {
             makeItem(name: "Leather Sofa"),
             makeItem(name: "Fabric Chair")
         ]))
-        let vm = ItemsListViewModel(category: makeCategory(), service: stub)
+        let vm = ItemsListViewModel(category: makeCategory(), router: Router<CatalogRoute>(), service: stub)
         
         await vm.loadItems()
         vm.searchText = "leather"
