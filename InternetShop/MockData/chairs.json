@@ -1,0 +1,24 @@
+[
+  {
+    "id": "22222222-2222-2222-2222-222222222221",
+    "name": "MARKUS Chair",
+    "category": { "id": "00000000-0000-0000-0000-000000000002", "name": "CHAIRS" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000021", "name": "Armchairs" },
+    "rating": 4,
+    "isFavorited": false,
+    "isAddedToCart": false,
+    "price": "199.50",
+    "thumbnailurl": "https://picsum.photos/id/1027/200/200"
+  },
+  {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "name": "VOLMAR Office Chair",
+    "category": { "id": "00000000-0000-0000-0000-000000000002", "name": "CHAIRS" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000022", "name": "Office chairs" },
+    "rating": 3,
+    "isFavorited": false,
+    "isAddedToCart": true,
+    "price": "249.00",
+    "thumbnailurl": "https://picsum.photos/id/1028/200/200"
+  }
+]

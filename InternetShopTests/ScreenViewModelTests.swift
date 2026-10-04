@@ -24,25 +24,31 @@ final class ScreenViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.errorMessage)
     }
 
-    func testLoadIsActiveWhileOperationRuns() async {
+    func testLoadIsActiveWhileOperationRuns() async throws {
         let viewModel = BaseScreenViewModel(title: "Test")
-        await viewModel.load {
+        try await viewModel.load {
             XCTAssertTrue(viewModel.isLoading)   // true during the operation
         }
         XCTAssertFalse(viewModel.isLoading)      // reset afterwards
     }
 
-    func testLoadSuccessClearsError() async {
+    func testLoadSuccessClearsError() async throws {
         let viewModel = BaseScreenViewModel(title: "Test")
-        await viewModel.load { }
+        viewModel.errorMessage = "Previous error"
+        try await viewModel.load { }
         XCTAssertNil(viewModel.errorMessage)
         XCTAssertFalse(viewModel.isLoading)
     }
 
-    func testLoadFailureSetsErrorMessage() async {
+    func testLoadFailureRethrowsAndResetsLoading() async {
         let viewModel = BaseScreenViewModel(title: "Test")
-        await viewModel.load { throw SampleError() }
-        XCTAssertNotNil(viewModel.errorMessage)
+        do {
+            try await viewModel.load { throw SampleError() }
+            XCTFail("Expected load to rethrow")
+        } catch {
+            XCTAssertTrue(error is SampleError)
+        }
+        XCTAssertNil(viewModel.errorMessage)
         XCTAssertFalse(viewModel.isLoading)
     }
 }

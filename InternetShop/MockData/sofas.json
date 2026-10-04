@@ -1,0 +1,24 @@
+[
+  {
+    "id": "11111111-1111-1111-1111-111111111111",
+    "name": "KIVIK Sofa",
+    "category": { "id": "00000000-0000-0000-0000-000000000001", "name": "SOFAS" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000011", "name": "3-seat sofas" },
+    "rating": 5,
+    "isFavorited": false,
+    "isAddedToCart": false,
+    "price": "450.00",
+    "thumbnailurl": ""
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111112",
+    "name": "EKTORP Corner",
+    "category": { "id": "00000000-0000-0000-0000-000000000001", "name": "SOFAS" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000012", "name": "Corner sofas" },
+    "rating": 4,
+    "isFavorited": true,
+    "isAddedToCart": true,
+    "price": "599.99",
+    "thumbnailurl": "https://broken_lllllink3213219ll"
+  }
+]

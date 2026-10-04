@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct CartView: View {
     @StateObject private var viewModel = CartViewModel()

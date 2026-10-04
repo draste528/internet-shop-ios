@@ -47,7 +47,7 @@ final class CatalogViewModelTests: XCTestCase {
         let viewModel = CatalogViewModel(service: stub)
         await viewModel.loadCategories()
         XCTAssertTrue(viewModel.categories.isEmpty)
-        XCTAssertNotNil(viewModel.errorMessage)
+        XCTAssertEqual(viewModel.errorMessage, "Failed to load categories")
         XCTAssertFalse(viewModel.isLoading)
     }
     
@@ -75,6 +75,6 @@ final class CatalogViewModelTests: XCTestCase {
         let vm = CatalogViewModel()
         let category = makeCategory(name: "SOFAS")
         vm.showDetail(for: category)
-        XCTAssertEqual(vm.router.path, [.categoryDetail(category)])
+        XCTAssertEqual(vm.router.path, [.itemsList(category: category)])
     }
 }

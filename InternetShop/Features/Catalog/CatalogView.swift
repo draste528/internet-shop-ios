@@ -35,6 +35,10 @@ struct CatalogView: View {
                     switch route {
                     case .categoryDetail(let category):
                         CategoryDetailView(viewModel: CategoryDetailViewModel(category: category))
+                    case .itemsList(let category):
+                        ItemsListView(category: category, router: router)
+                    case .itemDetail(let itemId):
+                        ItemDetailView(itemId: itemId)
                     }
                 }
         }

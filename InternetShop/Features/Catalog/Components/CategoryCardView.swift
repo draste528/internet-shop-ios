@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct CategoryCardView: View {
     let viewModel: CategoryCardViewModel
