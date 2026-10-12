@@ -83,4 +83,24 @@ final class ItemsListViewModelTests: XCTestCase {
         
         XCTAssertEqual(vm.filteredItems.map(\.name), ["Leather Sofa"])
     }
+    
+    func testShowItemDetailsPushesRoute() {
+        let router = Router<CatalogRoute>()
+        let vm = ItemsListViewModel(category: makeCategory(), router: router)
+        let id = UUID()
+
+        vm.showItemDetails(itemId: id)
+
+        XCTAssertEqual(router.path, [.itemDetail(itemId: id)])
+    }
+
+    func testEmptySearchReturnsAllItems() async {
+        let stub = StubItemsService(result: .success([makeItem(name: "A"), makeItem(name: "B")]))
+        let vm = ItemsListViewModel(category: makeCategory(), router: Router<CatalogRoute>(), service: stub)
+
+        await vm.loadItems()
+        vm.searchText = "   "
+
+        XCTAssertEqual(vm.filteredItems.count, 2)
+    }
 }

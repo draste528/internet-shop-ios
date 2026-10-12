@@ -17,33 +17,22 @@ struct ItemsListView: View {
     }
 
     var body: some View {
-        content
+            VStack(spacing: 0) {
+                SortFilterBar()
+                content
+            }
             .background(Color.appWhite)
             .navigationTitle(viewModel.title)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
-            .searchable(
-                text: $viewModel.searchText,
-                placement: .navigationBarDrawer(displayMode: .always),
-                prompt: "Search items"
-            )
+            .screenSearchable(text: $viewModel.searchText, prompt: "Search items")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     BackButton { dismiss() }
                 }
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button { } label: {
-                        Image(systemName: "arrow.up.arrow.down")
-                            .foregroundStyle(Color.appBlack)
-                    }
-                    Button { } label: {
-                        Image(systemName: "line.3.horizontal.decrease")
-                            .foregroundStyle(Color.appBlack)
-                    }
-                }
             }
             .task { await viewModel.loadItems() }
-    }
+        }
     
     @ViewBuilder
     private var content: some View {
@@ -58,7 +47,7 @@ struct ItemsListView: View {
     
     private var list: some View {
         ScrollView {
-            LazyVStack(spacing: 16) {
+            LazyVStack(spacing: 0) {
                 ForEach(viewModel.filteredItems) { item in
                     Button {
                         viewModel.showItemDetails(itemId: item.id)
@@ -66,9 +55,12 @@ struct ItemsListView: View {
                         ItemRow(item: item)
                     }
                     .buttonStyle(.plain)
+
+                    Rectangle()
+                        .fill(Color.appLightGray)
+                        .frame(height: 1)
                 }
             }
-            .padding(16)
         }
         .scrollDismissesKeyboard(.immediately)
     }

@@ -26,15 +26,9 @@ struct CatalogView: View {
             content
                 .navigationTitle(viewModel.title)
                 .navigationBarTitleDisplayMode(.inline)
-                .searchable(
-                    text: $viewModel.searchText,
-                    placement: .navigationBarDrawer(displayMode: .always),
-                    prompt: "Search"
-                )
+                .screenSearchable(text: $viewModel.searchText)
                 .navigationDestination(for: CatalogRoute.self) { route in
                     switch route {
-                    case .categoryDetail(let category):
-                        CategoryDetailView(viewModel: CategoryDetailViewModel(category: category))
                     case .itemsList(let category):
                         ItemsListView(category: category, router: router)
                     case .itemDetail(let itemId):

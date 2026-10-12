@@ -20,5 +20,27 @@
     "isAddedToCart": true,
     "price": "2.59",
     "thumbnailurl": "https://picsum.photos/id/1032/200/200"
+  },
+  {
+    "id": "44444444-4444-4444-4444-444444444443",
+    "name": "VINDKAST",
+    "category": { "id": "00000000-0000-0000-0000-000000000004", "name": "LAMPS" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000041", "name": "Pendent lamp" },
+    "rating": 1,
+    "isFavorited": false,
+    "isAddedToCart": false,
+    "price": "24.00",
+    "thumbnailurl": "https://picsum.photos/id/1025/400/400"
+  },
+  {
+    "id": "44444444-4444-4444-4444-444444444444",
+    "name": "GRINSBYN",
+    "category": { "id": "00000000-0000-0000-0000-000000000004", "name": "LAMPS" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000043", "name": "Chandelier" },
+    "rating": 4,
+    "isFavorited": false,
+    "isAddedToCart": false,
+    "price": "24.87",
+    "thumbnailurl": "https://picsum.photos/id/1035/400/400"
   }
 ]

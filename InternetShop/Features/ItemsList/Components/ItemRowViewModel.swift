@@ -11,20 +11,18 @@ import Combine
 
 @MainActor
 final class ItemRowViewModel: ObservableObject {
-    @Published var item: Item
+    let item: Item
 
     init(item: Item) {
         self.item = item
     }
 
     var priceFormatted: String {
-        let val = Double(item.price) ?? 0.0
-        return String(format: "$%.2f", val)
+        String(format: "%.2f $", item.priceValue)
     }
 
     var imageURL: URL? {
         guard let urlString = item.thumbnailURL,
-              !urlString.isEmpty,
               urlString.hasPrefix("http") else {
             return nil
         }
