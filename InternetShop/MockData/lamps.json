@@ -25,7 +25,7 @@
     "id": "44444444-4444-4444-4444-444444444443",
     "name": "VINDKAST",
     "category": { "id": "00000000-0000-0000-0000-000000000004", "name": "LAMPS" },
-    "subCategory": { "id": "00000000-0000-0000-0000-000000000041", "name": "Pendent lamp" },
+    "subCategory": { "id": "00000000-0000-0000-0000-000000000042", "name": "Pendant lamps" },
     "rating": 1,
     "isFavorited": false,
     "isAddedToCart": false,

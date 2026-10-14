@@ -1,0 +1,151 @@
+[
+  {
+    "id": "55555555-5555-5555-5555-555555555551",
+    "name": "MALM Bed Frame",
+    "category": {"id": "00000000-0000-0000-0000-000000000005", "name": "BEDS"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000051", "name": "Double beds"},
+    "description": "MALM is a clean-lined double bed frame with a high headboard and plenty of storage space under the bed.",
+    "rating": 5, "isFavorited": true, "isAddedToCart": false, "price": "299.00",
+    "thumbnails": ["https://picsum.photos/id/1033/600/400", "https://picsum.photos/id/1043/600/400", "https://picsum.photos/id/1053/600/400"],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-000000000064", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-000000000065", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"},
+      {"id": "00000000-0000-0000-0000-000000000066", "rating": 5, "message": "Looks exactly like in the pictures.", "author": "Olga Petrova"}
+    ]
+  },
+  {
+    "id": "22222222-2222-2222-2222-222222222221",
+    "name": "MARKUS Chair",
+    "category": {"id": "00000000-0000-0000-0000-000000000002", "name": "CHAIRS"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000021", "name": "Armchairs"},
+    "description": "MARKUS is an office armchair with a high back and good lumbar support for long working days.",
+    "rating": 4, "isFavorited": false, "isAddedToCart": false, "price": "199.50",
+    "thumbnails": ["https://picsum.photos/id/1027/600/400", "https://picsum.photos/id/1037/600/400", "https://picsum.photos/id/1047/600/400"],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-0000000000c8", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-0000000000c9", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"}
+    ]
+  },
+  {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "name": "VOLMAR Office Chair",
+    "category": {"id": "00000000-0000-0000-0000-000000000002", "name": "CHAIRS"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000022", "name": "Office chairs"},
+    "description": "VOLMAR is a light office chair with an adjustable seat height and a breathable mesh back.",
+    "rating": 3, "isFavorited": false, "isAddedToCart": true, "price": "249.00",
+    "thumbnails": ["https://picsum.photos/id/1028/600/400", "https://picsum.photos/id/1038/600/400", "https://picsum.photos/id/1048/600/400"],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-00000000012c", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-00000000012d", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"},
+      {"id": "00000000-0000-0000-0000-00000000012e", "rating": 5, "message": "Looks exactly like in the pictures.", "author": "Olga Petrova"}
+    ]
+  },
+  {
+    "id": "44444444-4444-4444-4444-444444444441",
+    "name": "HEKTAR Work Lamp",
+    "category": {"id": "00000000-0000-0000-0000-000000000004", "name": "LAMPS"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000041", "name": "Work lamps"},
+    "description": "HEKTAR is a work lamp with an adjustable arm. Sturdy metal construction and a focused beam make it ideal for a desk or workshop.",
+    "rating": 4, "isFavorited": false, "isAddedToCart": false, "price": "59.99",
+    "thumbnails": ["https://picsum.photos/id/1031/600/400", "https://picsum.photos/id/1041/600/400", "https://picsum.photos/id/1051/600/400"],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-000000000190", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-000000000191", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"}
+    ]
+  },
+  {
+    "id": "44444444-4444-4444-4444-444444444442",
+    "name": "VINDKAST",
+    "category": {"id": "00000000-0000-0000-0000-000000000004", "name": "LAMPS"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000042", "name": "Pendant lamps"},
+    "description": "VINDKAST is a pendant lamp. Metal, rugged constructions and timeless design – enjoy the SKURUP lamp series for a long time. Simple adjustments and different types of lamps make the series practical and flexible throughout the home.",
+    "rating": 2, "isFavorited": false, "isAddedToCart": true, "price": "2.59",
+    "thumbnails": ["https://picsum.photos/id/1032/600/400", "https://picsum.photos/id/1042/600/400", "https://picsum.photos/id/1052/600/400", "https://picsum.photos/id/1062/600/400"],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-0000000001f4", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-0000000001f5", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"},
+      {"id": "00000000-0000-0000-0000-0000000001f6", "rating": 5, "message": "Looks exactly like in the pictures.", "author": "Olga Petrova"}
+    ]
+  },
+  {
+    "id": "44444444-4444-4444-4444-444444444443",
+    "name": "VINDKAST",
+    "category": {"id": "00000000-0000-0000-0000-000000000004", "name": "LAMPS"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000042", "name": "Pendant lamps"},
+    "description": "VINDKAST is a pendant lamp. Metal, rugged constructions and timeless design – enjoy the SKURUP lamp series for a long time. Simple adjustments and different types of lamps make the series practical and flexible throughout the home.",
+    "rating": 1, "isFavorited": false, "isAddedToCart": false, "price": "24.00",
+    "thumbnails": ["https://picsum.photos/id/1025/600/400", "https://picsum.photos/id/1035/600/400", "https://picsum.photos/id/1045/600/400", "https://picsum.photos/id/1055/600/400"],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-000000000258", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-000000000259", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"}
+    ]
+  },
+  {
+    "id": "44444444-4444-4444-4444-444444444444",
+    "name": "GRINSBYN",
+    "category": {"id": "00000000-0000-0000-0000-000000000004", "name": "LAMPS"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000043", "name": "Chandelier"},
+    "description": "GRINSBYN is a chandelier with a warm, soft glow. A statement piece for the living room or dining area.",
+    "rating": 4, "isFavorited": false, "isAddedToCart": false, "price": "24.87",
+    "thumbnails": ["https://picsum.photos/id/1035/600/400", "https://picsum.photos/id/1045/600/400", "https://picsum.photos/id/1055/600/400"],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-0000000002bc", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-0000000002bd", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"},
+      {"id": "00000000-0000-0000-0000-0000000002be", "rating": 5, "message": "Looks exactly like in the pictures.", "author": "Olga Petrova"}
+    ]
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111111",
+    "name": "KIVIK Sofa",
+    "category": {"id": "00000000-0000-0000-0000-000000000001", "name": "SOFAS"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000011", "name": "3-seat sofas"},
+    "description": "KIVIK is a deep, comfortable three-seat sofa with soft cushions and a timeless shape.",
+    "rating": 5, "isFavorited": false, "isAddedToCart": false, "price": "450.00",
+    "thumbnails": [],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-000000000320", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-000000000321", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"}
+    ]
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111112",
+    "name": "EKTORP Corner",
+    "category": {"id": "00000000-0000-0000-0000-000000000001", "name": "SOFAS"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000012", "name": "Corner sofas"},
+    "description": "EKTORP is a cosy corner sofa with a removable, washable cover and plenty of room for the whole family.",
+    "rating": 4, "isFavorited": true, "isAddedToCart": true, "price": "599.99",
+    "thumbnails": ["https://broken_lllllink3213219ll"],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-000000000384", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-000000000385", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"},
+      {"id": "00000000-0000-0000-0000-000000000386", "rating": 5, "message": "Looks exactly like in the pictures.", "author": "Olga Petrova"}
+    ]
+  },
+  {
+    "id": "33333333-3333-3333-3333-333333333331",
+    "name": "LINNMON Table",
+    "category": {"id": "00000000-0000-0000-0000-000000000003", "name": "TABLES"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000031", "name": "Dining tables"},
+    "description": "LINNMON is a simple dining table with a smooth surface that is easy to keep clean.",
+    "rating": 5, "isFavorited": true, "isAddedToCart": false, "price": "120.00",
+    "thumbnails": ["https://picsum.photos/id/1029/600/400", "https://picsum.photos/id/1039/600/400", "https://picsum.photos/id/1049/600/400"],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-0000000003e8", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-0000000003e9", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"}
+    ]
+  },
+  {
+    "id": "66666666-6666-6666-6666-666666666661",
+    "name": "PAX Wardrobe",
+    "category": {"id": "00000000-0000-0000-0000-000000000006", "name": "WARDROBES"},
+    "subCategory": {"id": "00000000-0000-0000-0000-000000000061", "name": "Closets"},
+    "description": "PAX is a sliding-door wardrobe with adjustable shelves and rails that adapts to your storage needs.",
+    "rating": 4, "isFavorited": false, "isAddedToCart": true, "price": "550.00",
+    "thumbnails": ["https://picsum.photos/id/1035/600/400", "https://picsum.photos/id/1045/600/400", "https://picsum.photos/id/1055/600/400"],
+    "reviews": [
+      {"id": "00000000-0000-0000-0000-00000000044c", "rating": 1, "message": "I am very glad to have this in my home. Very classic, beautiful and stylish. Thanks a lot to IKEA!", "author": "Hanna Miller"},
+      {"id": "00000000-0000-0000-0000-00000000044d", "rating": 4, "message": "Great quality for the price. Delivery was fast.", "author": "John Carter"},
+      {"id": "00000000-0000-0000-0000-00000000044e", "rating": 5, "message": "Looks exactly like in the pictures.", "author": "Olga Petrova"}
+    ]
+  }
+]
