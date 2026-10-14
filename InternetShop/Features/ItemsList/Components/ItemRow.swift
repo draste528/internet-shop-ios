@@ -10,39 +10,41 @@ import SwiftUI
 struct ItemRow: View {
     @StateObject private var viewModel: ItemRowViewModel
 
+    private let imageSide: CGFloat = 120
+
     init(item: Item) {
         _viewModel = StateObject(wrappedValue: ItemRowViewModel(item: item))
     }
 
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 20) {
             imageView
-                .frame(width: 80, height: 80)
+                .frame(width: imageSide, height: imageSide)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(viewModel.item.name)
                     .font(.appHeadline)
                     .foregroundStyle(Color.appBlack)
-                
-                StarsView(viewModel: StarsViewModel(rating: Double(viewModel.item.rating)))
-                
+
+                StarsView(
+                    viewModel: StarsViewModel(rating: Double(viewModel.item.rating)),
+                    starSize: 20
+                )
+
                 Text(viewModel.priceFormatted)
                     .font(.appBodySemibold)
                     .foregroundStyle(Color.appPrimary)
             }
-            
-            Spacer()
+
+            Spacer(minLength: 0)
         }
-        .padding(12)
-        .background(Color.appWhite)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .overlay {
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.appLightGray, lineWidth: 1)
-        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity)
+        .contentShape(Rectangle())
     }
-    
+
     @ViewBuilder
     private var imageView: some View {
         if let url = viewModel.imageURL {
@@ -65,7 +67,7 @@ struct ItemRow: View {
             fallbackImage
         }
     }
-    
+
     private var fallbackImage: some View {
         ZStack {
             Rectangle().fill(Color.appDisabled)
@@ -73,9 +75,8 @@ struct ItemRow: View {
                 .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 32, height: 32)
-                .foregroundStyle(Color.appGray)
-                .opacity(0.4)
+                .frame(width: 40, height: 40)
+                .foregroundStyle(Color.appLightGray)
         }
     }
 }
