@@ -25,7 +25,7 @@ struct CatalogView: View {
         NavigationStack(path: $router.path) {
             content
                 .navigationTitle(viewModel.title)
-                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarTitleDisplayMode(.inline).appNavigationBar()
                 .screenSearchable(text: $viewModel.searchText)
                 .navigationDestination(for: CatalogRoute.self) { route in
                     switch route {

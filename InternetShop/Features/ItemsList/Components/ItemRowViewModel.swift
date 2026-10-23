@@ -9,7 +9,6 @@
 import Foundation
 import Combine
 
-@MainActor
 final class ItemRowViewModel: ObservableObject {
     let item: Item
 

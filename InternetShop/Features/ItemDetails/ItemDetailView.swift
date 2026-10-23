@@ -13,18 +13,21 @@ struct ItemDetailView: View {
     @StateObject private var viewModel: ItemDetailViewModel
 
     private let horizontalPadding: CGFloat = 20
+    private let galleryHeight: CGFloat = 245
+    private let cornerRadius: CGFloat = 12
 
     init(itemId: UUID) {
         _viewModel = StateObject(wrappedValue: ItemDetailViewModel(itemId: itemId))
     }
 
     var body: some View {
-        content
+        contentView
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.appWhite)
             .navigationTitle(viewModel.navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
+            .appNavigationBar()
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     BackButton { dismiss() }
@@ -33,23 +36,14 @@ struct ItemDetailView: View {
             .task { await viewModel.loadDetails() }
     }
 
+    // MARK: - Content
+
+    /// Screen states: details loaded -> content, load failed -> error text, otherwise -> loader.
+    /// The loader is the fallback branch so the first frame (before `.task` starts) is never empty.
     @ViewBuilder
-    private var content: some View {
+    private var contentView: some View {
         if let details = viewModel.details {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    gallery
-                    info(details)
-                    Rectangle()
-                        .fill(Color.appLightGray)
-                        .frame(height: 1)
-                        .padding(.horizontal, horizontalPadding)
-                    reviewsSection
-                    PrimaryButton(title: "BUY") { viewModel.buy() }
-                        .padding(.horizontal, horizontalPadding)
-                }
-                .padding(.vertical, 16)
-            }
+            detailsScrollView(details)
         } else if let message = viewModel.errorMessage {
             Text(message)
                 .font(.appBody)
@@ -59,60 +53,71 @@ struct ItemDetailView: View {
         }
     }
 
+    private func detailsScrollView(_ details: ItemDetails) -> some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                galleryView
+                infoView(details)
+                dividerView
+                reviewsView
+                PrimaryButton(title: "BUY") { viewModel.buy() }
+                    .padding(.horizontal, horizontalPadding)
+            }
+            .padding(.vertical, 16)
+        }
+    }
+
+    private var dividerView: some View {
+        Rectangle()
+            .fill(Color.appLightGray)
+            .frame(height: 1)
+            .padding(.horizontal, horizontalPadding)
+    }
+
     // MARK: - Gallery
 
-    private var gallery: some View {
-        let urls = viewModel.imageURLs
-        return VStack(spacing: 12) {
-            TabView(selection: $viewModel.selectedImageIndex) {
-                if urls.isEmpty {
-                    fallbackImage.tag(0)
-                } else {
-                    ForEach(Array(urls.enumerated()), id: \.offset) { index, url in
-                        remoteImage(url).tag(index)
-                    }
-                }
-            }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(height: 245)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding(.horizontal, horizontalPadding)
-
-            HStack(spacing: 12) {
-                ForEach(0..<max(urls.count, 1), id: \.self) { index in
-                    Circle()
-                        .fill(index == viewModel.selectedImageIndex ? Color.appPrimary : Color.appLightGray)
-                        .frame(width: 10, height: 10)
-                }
-            }
-            .frame(maxWidth: .infinity)
-        }
-    }
-
     @ViewBuilder
-    private func remoteImage(_ url: URL?) -> some View {
-        if let url {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .empty:
-                    ZStack {
-                        Rectangle().fill(Color.appDisabled)
-                        ProgressView()
-                    }
-                case .success(let image):
-                    image.resizable().scaledToFill()
-                case .failure:
-                    fallbackImage
-                @unknown default:
-                    EmptyView()
-                }
-            }
+    private var galleryView: some View {
+        if viewModel.imageURLs.isEmpty {
+            fallbackImageView
+                .frame(height: galleryHeight)
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                .padding(.horizontal, horizontalPadding)
         } else {
-            fallbackImage
+            PagerView(
+                viewModel.imageURLs,
+                selection: $viewModel.selectedImageIndex,
+                navigationStyle: .swipe,
+                showsIndicator: true,
+                pageHeight: galleryHeight
+            ) { url in
+                remoteImageView(url)
+                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                    .padding(.horizontal, horizontalPadding)
+            }
         }
     }
 
-    private var fallbackImage: some View {
+    private func remoteImageView(_ url: URL) -> some View {
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .empty:
+                ZStack {
+                    Rectangle().fill(Color.appDisabled)
+                    ProgressView()
+                }
+            case .success(let image):
+                image.resizable().scaledToFill()
+            case .failure:
+                fallbackImageView
+            @unknown default:
+                fallbackImageView
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var fallbackImageView: some View {
         ZStack {
             Rectangle().fill(Color.appDisabled)
             Image("LOGO")
@@ -126,15 +131,15 @@ struct ItemDetailView: View {
 
     // MARK: - Info
 
-    private func info(_ details: ItemDetails) -> some View {
+    private func infoView(_ details: ItemDetails) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 20) {
                 Text(details.name)
                     .font(.appName)
                     .foregroundStyle(Color.appBlack)
                 Spacer()
-                actionIcon("heart.fill", isActive: viewModel.isFavorited, action: viewModel.toggleFavorite)
-                actionIcon("basket.fill", isActive: viewModel.isAddedToCart, action: viewModel.toggleCart)
+                actionIconButton("heart.fill", isActive: viewModel.isFavorited, action: viewModel.toggleFavorite)
+                actionIconButton("basket.fill", isActive: viewModel.isAddedToCart, action: viewModel.toggleCart)
             }
             Text(details.subCategory.name)
                 .font(.appBody)
@@ -150,7 +155,7 @@ struct ItemDetailView: View {
         .padding(.horizontal, horizontalPadding)
     }
 
-    private func actionIcon(_ systemName: String, isActive: Bool, action: @escaping () -> Void) -> some View {
+    private func actionIconButton(_ systemName: String, isActive: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: systemName)
                 .resizable()
@@ -163,42 +168,32 @@ struct ItemDetailView: View {
     // MARK: - Reviews
 
     @ViewBuilder
-    private var reviewsSection: some View {
-        if let review = viewModel.currentReview {
-            HStack(spacing: 8) {
-                arrow("chevron.left", isEnabled: viewModel.canShowPreviousReview, action: viewModel.showPreviousReview)
-                VStack(spacing: 12) {
-                    StarsView(
-                        viewModel: StarsViewModel(rating: Double(review.rating)),
-                        starSize: 20
-                    )
-                    if let message = review.message {
-                        Text(message)
-                            .font(.appBody)
-                            .foregroundStyle(Color.appBlack)
-                            .multilineTextAlignment(.center)
-                    }
-                    if let author = review.author {
-                        Text(author)
-                            .font(.appBodySemibold)
-                            .foregroundStyle(Color.appBlack)
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                // StarsView keeps its first ViewModel, so recreate it when the review changes.
-                .id(review.id)
-                arrow("chevron.right", isEnabled: viewModel.canShowNextReview, action: viewModel.showNextReview)
+    private var reviewsView: some View {
+        if !viewModel.reviews.isEmpty {
+            PagerView(viewModel.reviews, navigationStyle: .arrows) { review in
+                reviewView(review)
             }
             .padding(.horizontal, horizontalPadding)
         }
     }
 
-    private func arrow(_ systemName: String, isEnabled: Bool, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: systemName)
-                .font(.appHeadline)
-                .foregroundStyle(isEnabled ? Color.appPrimary : Color.appLightGray)
+    private func reviewView(_ review: Review) -> some View {
+        VStack(spacing: 12) {
+            StarsView(
+                viewModel: StarsViewModel(rating: Double(review.rating)),
+                starSize: 20
+            )
+            if let message = review.message {
+                Text(message)
+                    .font(.appBody)
+                    .foregroundStyle(Color.appBlack)
+                    .multilineTextAlignment(.center)
+            }
+            if let author = review.author {
+                Text(author)
+                    .font(.appBodySemibold)
+                    .foregroundStyle(Color.appBlack)
+            }
         }
-        .disabled(!isEnabled)
     }
 }

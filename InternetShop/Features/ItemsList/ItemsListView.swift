@@ -17,35 +17,35 @@ struct ItemsListView: View {
     }
 
     var body: some View {
-            VStack(spacing: 0) {
-                SortFilterBar()
-                content
-            }
+        contentView
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.appWhite)
             .navigationTitle(viewModel.title)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
+            .appNavigationBar()
             .screenSearchable(text: $viewModel.searchText, prompt: "Search items")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     BackButton { dismiss() }
                 }
+                SortFilterToolbar()
             }
             .task { await viewModel.loadItems() }
-        }
-    
+    }
+
     @ViewBuilder
-    private var content: some View {
+    private var contentView: some View {
         if viewModel.isLoading {
             ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if viewModel.filteredItems.isEmpty {
-            emptyState
+            emptyStateView
         } else {
-            list
+            listView
         }
     }
-    
-    private var list: some View {
+
+    private var listView: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 ForEach(viewModel.filteredItems) { item in
@@ -64,9 +64,9 @@ struct ItemsListView: View {
         }
         .scrollDismissesKeyboard(.immediately)
     }
-    
+
     @ViewBuilder
-    private var emptyState: some View {
+    private var emptyStateView: some View {
         if viewModel.searchText.isEmpty {
             ContentUnavailableView("No items", systemImage: "tray")
         } else {

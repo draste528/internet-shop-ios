@@ -11,12 +11,13 @@ import Combine
 @MainActor
 final class ItemDetailViewModel: BaseScreenViewModel {
     @Published private(set) var details: ItemDetails?
+    @Published private(set) var imageURLs: [URL] = []
     @Published var selectedImageIndex = 0
-    @Published private(set) var selectedReviewIndex = 0
     @Published private(set) var isFavorited = false
     @Published private(set) var isAddedToCart = false
 
-    let itemId: UUID
+    /// Request parameter: `details` (and `details.id`) is nil until loading finishes.
+    private let itemId: UUID
     private let service: ItemDetailsService
 
     init(itemId: UUID, service: ItemDetailsService = MockItemDetailsService()) {
@@ -27,28 +28,17 @@ final class ItemDetailViewModel: BaseScreenViewModel {
 
     var navigationTitle: String { details?.name ?? "" }
 
-    var imageURLs: [URL?] {
-        (details?.thumbnails ?? []).map { URL(string: $0) }
-    }
-
     var reviews: [Review] { details?.reviews ?? [] }
-
-    var currentReview: Review? {
-        reviews.indices.contains(selectedReviewIndex) ? reviews[selectedReviewIndex] : nil
-    }
-
-    var canShowPreviousReview: Bool { selectedReviewIndex > 0 }
-    var canShowNextReview: Bool { selectedReviewIndex < reviews.count - 1 }
 
     func loadDetails() async {
         do {
             try await load {
                 let result = try await service.fetchDetails(for: itemId)
                 details = result
+                imageURLs = Self.validURLs(from: result.thumbnails)
                 isFavorited = result.isFavorited
                 isAddedToCart = result.isAddedToCart
                 selectedImageIndex = 0
-                selectedReviewIndex = 0
             }
         } catch {
             errorMessage = "Failed to load item details"
@@ -59,11 +49,11 @@ final class ItemDetailViewModel: BaseScreenViewModel {
     func toggleCart() { isAddedToCart.toggle() }
     func buy() { isAddedToCart = true }
 
-    func showNextReview() {
-        if canShowNextReview { selectedReviewIndex += 1 }
-    }
-
-    func showPreviousReview() {
-        if canShowPreviousReview { selectedReviewIndex -= 1 }
+    /// Keeps only valid http(s) links, so the View never deals with optional URLs.
+    private static func validURLs(from strings: [String]?) -> [URL] {
+        (strings ?? []).compactMap { string in
+            guard string.hasPrefix("http") else { return nil }
+            return URL(string: string)
+        }
     }
 }

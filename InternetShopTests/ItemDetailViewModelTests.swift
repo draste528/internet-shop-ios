@@ -18,12 +18,8 @@ private struct StubItemDetailsService: ItemDetailsService {
 @MainActor
 final class ItemDetailViewModelTests: XCTestCase {
 
-    private func makeReview(_ rating: Int) -> Review {
-        Review(id: UUID(), rating: rating, message: "msg", author: "Author")
-    }
-
     private func makeDetails(
-        thumbnails: [String]? = ["https://example.com/1.jpg", ""],
+        thumbnails: [String]? = ["https://example.com/1.jpg", "", "not a link"],
         reviews: [Review]? = nil,
         favorited: Bool = false,
         inCart: Bool = false
@@ -51,6 +47,8 @@ final class ItemDetailViewModelTests: XCTestCase {
         let vm = makeViewModel(.success(makeDetails()))
         XCTAssertNil(vm.details)
         XCTAssertEqual(vm.navigationTitle, "")
+        XCTAssertTrue(vm.imageURLs.isEmpty)
+        XCTAssertTrue(vm.reviews.isEmpty)
         XCTAssertFalse(vm.isLoading)
         XCTAssertNil(vm.errorMessage)
     }
@@ -73,12 +71,16 @@ final class ItemDetailViewModelTests: XCTestCase {
         XCTAssertFalse(vm.isLoading)
     }
 
-    func testImageURLsKeepsInvalidAsNil() async {
+    func testImageURLsContainOnlyValidLinks() async {
         let vm = makeViewModel(.success(makeDetails()))
         await vm.loadDetails()
-        XCTAssertEqual(vm.imageURLs.count, 2)
-        XCTAssertNotNil(vm.imageURLs[0])
-        XCTAssertNil(vm.imageURLs[1])
+        XCTAssertEqual(vm.imageURLs.map(\.absoluteString), ["https://example.com/1.jpg"])
+    }
+
+    func testImageURLsEmptyWhenNoThumbnails() async {
+        let vm = makeViewModel(.success(makeDetails(thumbnails: nil)))
+        await vm.loadDetails()
+        XCTAssertTrue(vm.imageURLs.isEmpty)
     }
 
     func testToggles() async {
@@ -99,27 +101,16 @@ final class ItemDetailViewModelTests: XCTestCase {
         XCTAssertTrue(vm.isAddedToCart)
     }
 
-    func testReviewNavigationIsClamped() async {
+    func testReviewsExposed() async {
         let vm = makeViewModel(.success(makeDetails(reviews: [makeReview(1), makeReview(4)])))
         await vm.loadDetails()
-        XCTAssertFalse(vm.canShowPreviousReview)
-        XCTAssertTrue(vm.canShowNextReview)
-
-        vm.showPreviousReview()
-        XCTAssertEqual(vm.currentReview?.rating, 1)
-
-        vm.showNextReview()
-        XCTAssertEqual(vm.currentReview?.rating, 4)
-        XCTAssertFalse(vm.canShowNextReview)
-
-        vm.showNextReview()
-        XCTAssertEqual(vm.currentReview?.rating, 4)
+        XCTAssertEqual(vm.reviews.map(\.rating), [1, 4])
     }
 
     func testNoReviews() async {
         let vm = makeViewModel(.success(makeDetails(reviews: nil)))
         await vm.loadDetails()
-        XCTAssertNil(vm.currentReview)
-        XCTAssertFalse(vm.canShowNextReview)
+        XCTAssertTrue(vm.reviews.isEmpty)
     }
+
 }
