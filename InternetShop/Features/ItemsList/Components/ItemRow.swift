@@ -60,7 +60,7 @@ struct ItemRow: View {
                 case .failure:
                     fallbackImage
                 @unknown default:
-                    EmptyView()
+                    fallbackImage
                 }
             }
         } else {

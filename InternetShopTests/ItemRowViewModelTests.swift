@@ -8,7 +8,6 @@
 import XCTest
 @testable import InternetShop
 
-@MainActor
 final class ItemRowViewModelTests: XCTestCase {
 
     private func makeItem(price: String = "99.9", thumbnailURL: String? = nil) -> Item {
