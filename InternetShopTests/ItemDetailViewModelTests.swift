@@ -17,6 +17,10 @@ private struct StubItemDetailsService: ItemDetailsService {
 
 @MainActor
 final class ItemDetailViewModelTests: XCTestCase {
+    
+    private func makeReview(_ rating: Int) -> Review {
+        Review(id: UUID(), rating: rating, message: "msg", author: "Author")
+    }
 
     private func makeDetails(
         thumbnails: [String]? = ["https://example.com/1.jpg", "", "not a link"],
