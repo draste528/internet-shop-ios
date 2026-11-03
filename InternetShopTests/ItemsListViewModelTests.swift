@@ -103,4 +103,10 @@ final class ItemsListViewModelTests: XCTestCase {
 
         XCTAssertEqual(vm.filteredItems.count, 2)
     }
+    
+    func testSortFilterToolbarStartsWithNothingApplied() {
+        let vm = ItemsListViewModel(category: makeCategory(), router: Router<CatalogRoute>())
+        XCTAssertFalse(vm.sortFilterToolbarViewModel.isSortApplied)
+        XCTAssertFalse(vm.sortFilterToolbarViewModel.isFilterApplied)
+    }
 }

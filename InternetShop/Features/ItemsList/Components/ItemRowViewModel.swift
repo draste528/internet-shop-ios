@@ -21,10 +21,6 @@ final class ItemRowViewModel: ObservableObject {
     }
 
     var imageURL: URL? {
-        guard let urlString = item.thumbnailURL,
-              urlString.hasPrefix("http") else {
-            return nil
-        }
-        return URL(string: urlString)
+            item.thumbnailURL.flatMap { URL(validatedString: $0) }
     }
 }

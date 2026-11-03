@@ -35,7 +35,7 @@ final class ItemDetailViewModel: BaseScreenViewModel {
             try await load {
                 let result = try await service.fetchDetails(for: itemId)
                 details = result
-                imageURLs = Self.validURLs(from: result.thumbnails)
+                imageURLs = validURLs(from: result.thumbnails)
                 isFavorited = result.isFavorited
                 isAddedToCart = result.isAddedToCart
                 selectedImageIndex = 0
@@ -49,11 +49,8 @@ final class ItemDetailViewModel: BaseScreenViewModel {
     func toggleCart() { isAddedToCart.toggle() }
     func buy() { isAddedToCart = true }
 
-    /// Keeps only valid http(s) links, so the View never deals with optional URLs.
-    private static func validURLs(from strings: [String]?) -> [URL] {
-        (strings ?? []).compactMap { string in
-            guard string.hasPrefix("http") else { return nil }
-            return URL(string: string)
-        }
+    /// Keeps only valid web or local file links, so the View never deals with optional URLs.
+    private func validURLs(from strings: [String]?) -> [URL] {
+        (strings ?? []).compactMap { URL(validatedString: $0) }
     }
 }

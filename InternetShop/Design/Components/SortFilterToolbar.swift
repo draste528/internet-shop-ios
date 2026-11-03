@@ -8,28 +8,38 @@
 import SwiftUI
 
 /// Sort and filter buttons placed on the trailing side of the navigation bar.
+/// All state and tap handling live in `SortFilterToolbarViewModel`.
 struct SortFilterToolbar: ToolbarContent {
-    var onSort: () -> Void = {}
-    var onFilter: () -> Void = {}
-
-    private let iconSide: CGFloat = 23
+    let viewModel: SortFilterToolbarViewModel
 
     var body: some ToolbarContent {
         ToolbarItemGroup(placement: .topBarTrailing) {
-            button(icon: "Sorting", label: "Sort", action: onSort)
-            button(icon: "filter", label: "Filter", action: onFilter)
+            SortFilterToolbarButton(kind: .sort, viewModel: viewModel)
+            SortFilterToolbarButton(kind: .filter, viewModel: viewModel)
         }
     }
+}
 
-    private func button(icon: String, label: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(icon)
+/// A single toolbar button; observes the view model so its color follows the applied state.
+private struct SortFilterToolbarButton: View {
+    let kind: SortFilterButtonKind
+    @ObservedObject var viewModel: SortFilterToolbarViewModel
+
+    private let iconSide: CGFloat = 23
+
+    var body: some View {
+        let isApplied = viewModel.isApplied(kind)
+        Button {
+            viewModel.didTap(kind)
+        } label: {
+            Image(kind.iconName)
                 .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
                 .frame(width: iconSide, height: iconSide)
-                .foregroundStyle(Color.appGray)
+                .foregroundStyle(isApplied ? Color.appPrimary : Color.appGray)
         }
-        .accessibilityLabel(label)
+        .accessibilityLabel(kind.accessibilityLabel)
+        .accessibilityAddTraits(isApplied ? .isSelected : [])
     }
 }

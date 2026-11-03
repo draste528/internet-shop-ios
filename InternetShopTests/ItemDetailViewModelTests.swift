@@ -116,5 +116,19 @@ final class ItemDetailViewModelTests: XCTestCase {
         await vm.loadDetails()
         XCTAssertTrue(vm.reviews.isEmpty)
     }
+    
+    func testImageURLsAcceptLocalFiles() async {
+        let thumbnails = ["file:///tmp/1.jpg", "/tmp/2.jpg", "ftp://example.com/3.jpg"]
+        let vm = makeViewModel(.success(makeDetails(thumbnails: thumbnails)))
+        await vm.loadDetails()
+        XCTAssertEqual(vm.imageURLs.map(\.absoluteString), ["file:///tmp/1.jpg", "file:///tmp/2.jpg"])
+    }
+
+    func testLoadResetsSelectedImageIndex() async {
+        let vm = makeViewModel(.success(makeDetails()))
+        vm.selectedImageIndex = 3
+        await vm.loadDetails()
+        XCTAssertEqual(vm.selectedImageIndex, 0)
+    }
 
 }

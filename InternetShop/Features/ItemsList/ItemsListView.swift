@@ -29,7 +29,7 @@ struct ItemsListView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     BackButton { dismiss() }
                 }
-                SortFilterToolbar()
+                SortFilterToolbar(viewModel: viewModel.sortFilterToolbarViewModel)
             }
             .task { await viewModel.loadItems() }
     }

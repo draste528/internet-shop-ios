@@ -87,7 +87,6 @@ struct ItemDetailView: View {
             PagerView(
                 viewModel.imageURLs,
                 selection: $viewModel.selectedImageIndex,
-                navigationStyle: .swipe,
                 showsIndicator: true,
                 pageHeight: galleryHeight
             ) { url in
@@ -170,7 +169,7 @@ struct ItemDetailView: View {
     @ViewBuilder
     private var reviewsView: some View {
         if !viewModel.reviews.isEmpty {
-            PagerView(viewModel.reviews, navigationStyle: .arrows) { review in
+            PagerView(viewModel.reviews, showsArrows: true) { review in
                 reviewView(review)
             }
             .padding(.horizontal, horizontalPadding)

@@ -7,39 +7,43 @@
 
 import SwiftUI
 
-/// Generic horizontal pager: shows one page at a time.
-/// Pages are switched either by swipe or by left/right arrow buttons; the dot indicator is optional.
+/// Generic horizontal pager built on a paging `ScrollView`: shows one page at a time.
+/// Pages are switched by swipe, by optional left/right arrow buttons, or both; the dot indicator is optional.
 struct PagerView<Item, Page: View>: View {
-    enum NavigationStyle {
-        case swipe
-        case arrows
-    }
-
     private let items: [Item]
     private let externalSelection: Binding<Int>?
-    private let navigationStyle: NavigationStyle
+    private let showsArrows: Bool
     private let showsIndicator: Bool
+    private let isSwipeEnabled: Bool
     private let pageHeight: CGFloat?
     private let page: (Item) -> Page
+
+    private let arrowSpacing: CGFloat = 8
+    private let indicatorSpacing: CGFloat = 12
 
     /// Used when the caller does not need to own the selected index.
     @State private var internalSelection = 0
 
     /// - Parameters:
     ///   - selection: pass a binding to control the index from outside, or nil to let the pager own it.
-    ///   - pageHeight: required for `.swipe` inside a ScrollView (TabView has no intrinsic height).
+    ///   - showsArrows: adds left/right buttons around the pages.
+    ///   - showsIndicator: adds the dot indicator below the pages.
+    ///   - isSwipeEnabled: set to false to switch pages only with the arrows.
+    ///   - pageHeight: fixed page height; nil lets the pager take the height of its tallest page.
     init(
         _ items: [Item],
         selection: Binding<Int>? = nil,
-        navigationStyle: NavigationStyle = .swipe,
+        showsArrows: Bool = false,
         showsIndicator: Bool = false,
+        isSwipeEnabled: Bool = true,
         pageHeight: CGFloat? = nil,
         @ViewBuilder page: @escaping (Item) -> Page
     ) {
         self.items = items
         self.externalSelection = selection
-        self.navigationStyle = navigationStyle
+        self.showsArrows = showsArrows
         self.showsIndicator = showsIndicator
+        self.isSwipeEnabled = isSwipeEnabled
         self.pageHeight = pageHeight
         self.page = page
     }
@@ -48,9 +52,21 @@ struct PagerView<Item, Page: View>: View {
         if items.isEmpty {
             EmptyView()
         } else {
-            VStack(spacing: 12) {
-                pagesView
-                    .frame(height: pageHeight)
+            VStack(spacing: indicatorSpacing) {
+                HStack(spacing: arrowSpacing) {
+                    if showsArrows {
+                        arrowButton("chevron.left", isEnabled: canShowPrevious) {
+                            showPage(currentIndex - 1)
+                        }
+                    }
+                    pagesView
+                        .frame(height: pageHeight)
+                    if showsArrows {
+                        arrowButton("chevron.right", isEnabled: canShowNext) {
+                            showPage(currentIndex + 1)
+                        }
+                    }
+                }
                 if showsIndicator {
                     PageIndicatorView(count: items.count, selectedIndex: currentIndex)
                 }
@@ -64,48 +80,48 @@ struct PagerView<Item, Page: View>: View {
         externalSelection ?? $internalSelection
     }
 
-    /// Selected index clamped to the valid range, so a stale index never crashes.
+    /// Selected index clamped to the valid range (never negative), so a stale index never crashes.
     private var currentIndex: Int {
-        min(max(selection.wrappedValue, 0), items.count - 1)
+        items.clampedIndex(selection.wrappedValue)
+    }
+
+    /// Bridges the Int selection to the optional id that `scrollPosition(id:)` works with.
+    private var scrollPosition: Binding<Int?> {
+        Binding(
+            get: { currentIndex },
+            set: { newValue in
+                if let newValue {
+                    selection.wrappedValue = newValue
+                }
+            }
+        )
     }
 
     private var canShowPrevious: Bool { currentIndex > 0 }
     private var canShowNext: Bool { currentIndex < items.count - 1 }
 
+    private func showPage(_ index: Int) {
+        withAnimation(.easeInOut) {
+            selection.wrappedValue = items.clampedIndex(index)
+        }
+    }
+
     // MARK: - Pages
 
-    @ViewBuilder
+    /// One paging ScrollView serves every mode: swipe, arrows and the indicator all drive the same position.
     private var pagesView: some View {
-        switch navigationStyle {
-        case .swipe:
-            swipePagesView
-        case .arrows:
-            arrowPagesView
-        }
-    }
-
-    private var swipePagesView: some View {
-        TabView(selection: selection) {
-            ForEach(items.indices, id: \.self) { index in
-                page(items[index]).tag(index)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .top, spacing: 0) {
+                ForEach(items.indices, id: \.self) { index in
+                    page(items[index])
+                        .containerRelativeFrame(.horizontal)
+                }
             }
+            .scrollTargetLayout()
         }
-        .tabViewStyle(.page(indexDisplayMode: .never))
-    }
-
-    private var arrowPagesView: some View {
-        HStack(spacing: 8) {
-            arrowButton("chevron.left", isEnabled: canShowPrevious) {
-                selection.wrappedValue = currentIndex - 1
-            }
-            page(items[currentIndex])
-                .frame(maxWidth: .infinity)
-                // Recreate the page on change so child views with @StateObject (e.g. StarsView) refresh.
-                .id(currentIndex)
-            arrowButton("chevron.right", isEnabled: canShowNext) {
-                selection.wrappedValue = currentIndex + 1
-            }
-        }
+        .scrollTargetBehavior(.paging)
+        .scrollPosition(id: scrollPosition, anchor: .center)
+        .scrollDisabled(!isSwipeEnabled)
     }
 
     private func arrowButton(_ systemName: String, isEnabled: Bool, action: @escaping () -> Void) -> some View {
