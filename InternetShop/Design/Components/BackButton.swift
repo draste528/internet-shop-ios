@@ -14,7 +14,7 @@ struct BackButton: View {
     var body: some View {
         Button(action: action) {
             Image(systemName: "chevron.left")
-                .fontWeight(.semibold)
+                .font(.appHeadline)
                 .foregroundStyle(Color.appPrimary)
         }
     }

@@ -17,48 +17,37 @@ struct ItemsListView: View {
     }
 
     var body: some View {
-        content
+        contentView
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.appWhite)
             .navigationTitle(viewModel.title)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
-            .searchable(
-                text: $viewModel.searchText,
-                placement: .navigationBarDrawer(displayMode: .always),
-                prompt: "Search items"
-            )
+            .appNavigationBar()
+            .screenSearchable(text: $viewModel.searchText, prompt: "Search items")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     BackButton { dismiss() }
                 }
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button { } label: {
-                        Image(systemName: "arrow.up.arrow.down")
-                            .foregroundStyle(Color.appBlack)
-                    }
-                    Button { } label: {
-                        Image(systemName: "line.3.horizontal.decrease")
-                            .foregroundStyle(Color.appBlack)
-                    }
-                }
+                SortFilterToolbar(viewModel: viewModel.sortFilterToolbarViewModel)
             }
             .task { await viewModel.loadItems() }
     }
-    
+
     @ViewBuilder
-    private var content: some View {
+    private var contentView: some View {
         if viewModel.isLoading {
             ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if viewModel.filteredItems.isEmpty {
-            emptyState
+            emptyStateView
         } else {
-            list
+            listView
         }
     }
-    
-    private var list: some View {
+
+    private var listView: some View {
         ScrollView {
-            LazyVStack(spacing: 16) {
+            LazyVStack(spacing: 0) {
                 ForEach(viewModel.filteredItems) { item in
                     Button {
                         viewModel.showItemDetails(itemId: item.id)
@@ -66,15 +55,18 @@ struct ItemsListView: View {
                         ItemRow(item: item)
                     }
                     .buttonStyle(.plain)
+
+                    Rectangle()
+                        .fill(Color.appLightGray)
+                        .frame(height: 1)
                 }
             }
-            .padding(16)
         }
         .scrollDismissesKeyboard(.immediately)
     }
-    
+
     @ViewBuilder
-    private var emptyState: some View {
+    private var emptyStateView: some View {
         if viewModel.searchText.isEmpty {
             ContentUnavailableView("No items", systemImage: "tray")
         } else {

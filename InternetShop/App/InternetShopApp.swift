@@ -12,6 +12,7 @@ import UIKit
 struct InternetShopApp: App {
     init() {
         UISearchTextField.appearance().backgroundColor = .appDisabled
+        UISearchTextField.appearance().clearButtonMode = .never
     }
 
     var body: some Scene {

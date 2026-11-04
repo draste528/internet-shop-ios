@@ -12,10 +12,12 @@ import Combine
 struct StarsView: View {
     @StateObject private var viewModel: StarsViewModel
     let spacing: CGFloat
+    let starSize: CGFloat
 
-    init(viewModel: StarsViewModel, spacing: CGFloat = 2) {
+    init(viewModel: StarsViewModel, spacing: CGFloat = 2, starSize: CGFloat = 14) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.spacing = spacing
+        self.starSize = starSize
     }
 
     var body: some View {
@@ -24,7 +26,7 @@ struct StarsView: View {
                 Image(systemName: viewModel.iconName(for: index))
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 14, height: 14)
+                    .frame(width: starSize, height: starSize)
                     .foregroundStyle(Color.appYellow)
             }
         }

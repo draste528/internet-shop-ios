@@ -19,7 +19,7 @@ struct TabsView: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 60)
                     .padding(.top, 8)
-                    .background(Color.appDisabled)
+                    .background(Color.appWhite)
                     .overlay(alignment: .top) {
                         Rectangle().fill(Color.appLightGray)
                             .frame(height: 1)
