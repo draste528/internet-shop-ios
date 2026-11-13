@@ -5,6 +5,8 @@
 //  Created by kair on 07.08.26.
 //
 
-protocol CatalogService {
+import Foundation
+
+protocol CatalogService: Sendable {
     func fetchCategories() async throws -> [Category]
 }
