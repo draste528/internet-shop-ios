@@ -16,6 +16,15 @@ class BaseScreenViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var searchText: String = ""
 
+    var isShowingError: Bool {
+        get { errorMessage != nil }
+        set {
+            if !newValue {
+                errorMessage = nil
+            }
+        }
+    }
+
     init(title: String) {
         self.title = title
     }

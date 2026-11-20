@@ -13,9 +13,14 @@ final class CatalogViewModel: BaseScreenViewModel {
     @Published private(set) var categories: [Category] = []
 
     let router = Router<CatalogRoute>()
-    private let service: CatalogService
+    private let service: (any CatalogService)?
 
-    init(service: CatalogService = MockCatalogService()) {
+    init(serviceLocator: any ServiceLocating = ServiceLocator.shared) {
+        self.service = serviceLocator.resolve((any CatalogService).self)
+        super.init(title: "Catalog")
+    }
+
+    init(service: any CatalogService) {
         self.service = service
         super.init(title: "Catalog")
     }
@@ -33,10 +38,13 @@ final class CatalogViewModel: BaseScreenViewModel {
     func loadCategories() async {
         do {
             try await load {
+                guard let service else {
+                    throw NetworkError.invalidResponse
+                }
                 self.categories = try await service.fetchCategories()
             }
         } catch {
-            errorMessage = "Failed to load categories"
+            errorMessage = error.localizedDescription
         }
     }
 }

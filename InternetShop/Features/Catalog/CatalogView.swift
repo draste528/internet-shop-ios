@@ -25,7 +25,8 @@ struct CatalogView: View {
         NavigationStack(path: $router.path) {
             content
                 .navigationTitle(viewModel.title)
-                .navigationBarTitleDisplayMode(.inline).appNavigationBar()
+                .navigationBarTitleDisplayMode(.inline)
+                .appNavigationBar()
                 .screenSearchable(text: $viewModel.searchText)
                 .navigationDestination(for: CatalogRoute.self) { route in
                     switch route {
@@ -34,6 +35,14 @@ struct CatalogView: View {
                     case .itemDetail(let itemId):
                         ItemDetailView(itemId: itemId)
                     }
+                }
+                .alert("Error", isPresented: $viewModel.isShowingError) {
+                    Button("Retry") {
+                        Task { await viewModel.loadCategories() }
+                    }
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text(viewModel.errorMessage ?? "")
                 }
         }
     }
@@ -63,13 +72,23 @@ struct CatalogView: View {
             }
             .padding(16)
         }
+        .refreshable {
+            await viewModel.loadCategories()
+        }
         .scrollDismissesKeyboard(.immediately)
     }
 
     @ViewBuilder
     private var emptyState: some View {
         if viewModel.searchText.isEmpty {
-            ContentUnavailableView("No categories", systemImage: "square.grid.2x2")
+            ContentUnavailableView {
+                Label("No categories", systemImage: "square.grid.2x2")
+            } actions: {
+                PrimaryButton(title: "RETRY") {
+                    Task { await viewModel.loadCategories() }
+                }
+                .frame(width: 160)
+            }
         } else {
             ContentUnavailableView.search(text: viewModel.searchText)
         }

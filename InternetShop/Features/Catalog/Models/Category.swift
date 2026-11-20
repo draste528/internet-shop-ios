@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct Category: Codable, Identifiable, Hashable {
-    let id: UUID
+nonisolated struct Category: Codable, Identifiable, Hashable, Sendable {
+    let id: String
     let name: String
     let thumbnailURL: String?
     let subCategories: [Subcategory]?
 
     enum CodingKeys: String, CodingKey {
         case id, name
-        case thumbnailURL = "thumbnailurl"
+        case thumbnailURL = "thumbnailUrl"
         case subCategories
     }
 }

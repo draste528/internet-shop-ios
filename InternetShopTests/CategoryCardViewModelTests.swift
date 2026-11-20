@@ -11,7 +11,7 @@ import XCTest
 final class CategoryCardViewModelTests: XCTestCase {
 
     private func makeCategory(name: String) -> InternetShop.Category {
-        InternetShop.Category(id: UUID(), name: name, thumbnailURL: nil, subCategories: nil)
+        InternetShop.Category(id: UUID().uuidString, name: name, thumbnailURL: nil, subCategories: nil)
     }
 
     func testTitleIsCapitalizedCategoryName() {

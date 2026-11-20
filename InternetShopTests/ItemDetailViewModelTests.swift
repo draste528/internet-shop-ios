@@ -31,8 +31,8 @@ final class ItemDetailViewModelTests: XCTestCase {
         ItemDetails(
             id: UUID(),
             name: "VINDKAST",
-            category: InternetShop.Category(id: UUID(), name: "LAMPS", thumbnailURL: nil, subCategories: nil),
-            subCategory: Subcategory(id: UUID(), name: "Pendant lamps", thumbnailURL: nil),
+            category: InternetShop.Category(id: UUID().uuidString, name: "LAMPS", thumbnailURL: nil, subCategories: nil),
+            subCategory: Subcategory(id: UUID().uuidString, name: "Pendant lamps", thumbnailURL: nil),
             description: "Desc",
             rating: 2,
             isFavorited: favorited,
