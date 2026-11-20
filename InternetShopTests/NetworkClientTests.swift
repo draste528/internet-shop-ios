@@ -76,7 +76,7 @@ final class NetworkClientTests: XCTestCase {
     }
 
     func testRequestThrowsInvalidURLWhenHostIsEmpty() async {
-        let config = APIConfiguration(scheme: "http", host: "", port: nil)
+        let config = APIConfiguration(scheme: "http", host: "", port:nil)
         let httpClient = StubHTTPClient { _ in (Data(), URLResponse()) }
         let client = NetworkClient(configuration: config, httpClient: httpClient)
 
@@ -85,6 +85,8 @@ final class NetworkClientTests: XCTestCase {
             XCTFail("Expected NetworkError.invalidURL")
         } catch let error as NetworkError {
             XCTAssertEqual(error, .invalidURL)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
         }
     }
 

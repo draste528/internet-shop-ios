@@ -1,10 +1,3 @@
-//
-//  CatalogViewModelTests.swift
-//  InternetShop
-//
-//  Created by kair on 06.08.26.
-//
-
 import XCTest
 @testable import InternetShop
 
@@ -19,15 +12,17 @@ private struct StubCatalogService: CatalogService {
 final class CatalogViewModelTests: XCTestCase {
 
     private func makeCategory(name: String) -> InternetShop.Category {
-        Category(id: UUID(), name: name, thumbnailURL: nil, subCategories: nil)
+        Category(id: UUID().uuidString, name: name, thumbnailURL: nil, subCategories: nil)
     }
 
     func testTitle() {
-        XCTAssertEqual(CatalogViewModel().title, "Catalog")
+        let stub = StubCatalogService(result: .success([]))
+        XCTAssertEqual(CatalogViewModel(service: stub).title, "Catalog")
     }
 
     func testInitialStateIsEmpty() {
-        let viewModel = CatalogViewModel()
+        let stub = StubCatalogService(result: .success([]))
+        let viewModel = CatalogViewModel(service: stub)
         XCTAssertTrue(viewModel.categories.isEmpty)
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertNil(viewModel.errorMessage)
@@ -43,14 +38,33 @@ final class CatalogViewModelTests: XCTestCase {
     }
 
     func testLoadCategoriesFailureSetsError() async {
-        let stub = StubCatalogService(result: .failure(CatalogError.mockNotFound))
+        let stub = StubCatalogService(result: .failure(NetworkError.statusCode(500)))
         let viewModel = CatalogViewModel(service: stub)
         await viewModel.loadCategories()
         XCTAssertTrue(viewModel.categories.isEmpty)
-        XCTAssertEqual(viewModel.errorMessage, "Failed to load categories")
+        XCTAssertEqual(viewModel.errorMessage, NetworkError.statusCode(500).localizedDescription)
+        XCTAssertTrue(viewModel.isShowingError)
         XCTAssertFalse(viewModel.isLoading)
     }
-    
+
+    func testResolvesServiceFromServiceLocator() async {
+        let locator = ServiceLocator()
+        let stub: any CatalogService = StubCatalogService(result: .success([makeCategory(name: "LAMPS")]))
+        locator.register(stub, for: (any CatalogService).self)
+
+        let viewModel = CatalogViewModel(serviceLocator: locator)
+        await viewModel.loadCategories()
+        XCTAssertEqual(viewModel.categories.map(\.name), ["LAMPS"])
+    }
+
+    func testMissingServiceInLocatorSetsError() async {
+        let locator = ServiceLocator()
+        let viewModel = CatalogViewModel(serviceLocator: locator)
+        await viewModel.loadCategories()
+        XCTAssertTrue(viewModel.categories.isEmpty)
+        XCTAssertNotNil(viewModel.errorMessage)
+    }
+
     func testFilterByNameIsCaseInsensitive() async {
         let stub = StubCatalogService(result: .success([
             makeCategory(name: "SOFAS"), makeCategory(name: "CHAIRS")
@@ -70,9 +84,10 @@ final class CatalogViewModelTests: XCTestCase {
         viewModel.searchText = "   "
         XCTAssertEqual(viewModel.filteredCategories.count, 2)
     }
-    
+
     func testShowDetailPushesRoute() {
-        let vm = CatalogViewModel()
+        let stub = StubCatalogService(result: .success([]))
+        let vm = CatalogViewModel(service: stub)
         let category = makeCategory(name: "SOFAS")
         vm.showDetail(for: category)
         XCTAssertEqual(vm.router.path, [.itemsList(category: category)])

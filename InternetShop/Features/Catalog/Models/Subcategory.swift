@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Subcategory: Codable, Identifiable, Hashable, Sendable {
+nonisolated struct Subcategory: Codable, Identifiable, Hashable, Sendable {
     let id: String
     let name: String
     let thumbnailURL: String?

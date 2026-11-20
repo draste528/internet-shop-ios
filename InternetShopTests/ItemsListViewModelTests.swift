@@ -20,7 +20,7 @@ private struct StubItemsService: ItemsService {
 final class ItemsListViewModelTests: XCTestCase {
 
     private func makeCategory() -> InternetShop.Category {
-        Category(id: UUID(), name: "SOFAS", thumbnailURL: nil, subCategories: nil)
+        Category(id: UUID().uuidString, name: "SOFAS", thumbnailURL: nil, subCategories: nil)
     }
     
     private func makeItem(name: String) -> Item {
@@ -28,7 +28,7 @@ final class ItemsListViewModelTests: XCTestCase {
             id: UUID(),
             name: name,
             category: makeCategory(),
-            subCategory: Subcategory(id: UUID(), name: "Sub", thumbnailURL: nil),
+            subCategory: Subcategory(id: UUID().uuidString , name: "Sub", thumbnailURL: nil),
             rating: 5,
             isFavorited: false,
             isAddedToCart: false,

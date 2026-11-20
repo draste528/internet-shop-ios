@@ -14,8 +14,8 @@ final class ItemRowViewModelTests: XCTestCase {
         Item(
             id: UUID(),
             name: "Sofa",
-            category: InternetShop.Category(id: UUID(), name: "SOFAS", thumbnailURL: nil, subCategories: nil),
-            subCategory: Subcategory(id: UUID(), name: "Sub", thumbnailURL: nil),
+            category: InternetShop.Category(id: UUID().uuidString , name: "SOFAS", thumbnailURL: nil, subCategories: nil),
+            subCategory: Subcategory(id: UUID().uuidString , name: "Sub", thumbnailURL: nil),
             rating: 4,
             isFavorited: false,
             isAddedToCart: false,

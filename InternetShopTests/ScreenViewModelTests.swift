@@ -1,10 +1,3 @@
-//
-//  ScreenViewModelTests.swift
-//  InternetShop
-//
-//  Created by kair on 03.08.26.
-//
-
 import XCTest
 @testable import InternetShop
 
@@ -22,14 +15,15 @@ final class ScreenViewModelTests: XCTestCase {
         let viewModel = BaseScreenViewModel(title: "Test")
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertNil(viewModel.errorMessage)
+        XCTAssertFalse(viewModel.isShowingError)
     }
 
     func testLoadIsActiveWhileOperationRuns() async throws {
         let viewModel = BaseScreenViewModel(title: "Test")
         try await viewModel.load {
-            XCTAssertTrue(viewModel.isLoading)   // true during the operation
+            XCTAssertTrue(viewModel.isLoading)
         }
-        XCTAssertFalse(viewModel.isLoading)      // reset afterwards
+        XCTAssertFalse(viewModel.isLoading)
     }
 
     func testLoadSuccessClearsError() async throws {
@@ -50,5 +44,13 @@ final class ScreenViewModelTests: XCTestCase {
         }
         XCTAssertNil(viewModel.errorMessage)
         XCTAssertFalse(viewModel.isLoading)
+    }
+
+    func testDismissingErrorClearsErrorMessage() {
+        let viewModel = BaseScreenViewModel(title: "Test")
+        viewModel.errorMessage = "Network failed"
+        XCTAssertTrue(viewModel.isShowingError)
+        viewModel.isShowingError = false
+        XCTAssertNil(viewModel.errorMessage)
     }
 }
